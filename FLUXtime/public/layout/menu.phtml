@@ -1,0 +1,6 @@
+
+<ul>
+<?php foreach ($this->container as $page): ?>
+<li><?=$this->navigation()->menu()->htmlify($page)?><span></span></li>
+<?php endforeach; ?>
+<ul>

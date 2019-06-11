@@ -1,0 +1,54 @@
+<?php
+$this->headScript()->appendFile('/js/module/profile/confirmuser.js');
+$title = $this->translate('Confirm user');
+$this->headTitle($title);
+?>
+
+<div id="contentpageheader">
+    <h1>
+        <span class="headerlogo fa fa-user"></span>
+        <span class="h1text"><?php echo $this->escapeHtml($title); ?><span>                
+                </h1>
+                </div>    
+
+                <p class="btn-danger"> 
+                    <?php
+                    if (!empty($this->messages)) {
+                        foreach ($this->messages as $message) {
+                            echo 'error: ' . $message . PHP_EOL;
+                        }
+                    }
+                    ?> 
+                </p>
+
+                <?php
+                if (!isset($this->cancelled)) {
+                    // form content
+                    $form->prepare();
+                    echo $this->form()->openTag($form);
+                    echo $this->formHidden($form->get('id'));
+
+                    echo '<div class="container">';
+                    foreach ($form as $element) {
+                        if ($element->getName() != 'submit' && $element->getName() != 'id') {
+                            $element->setAttribute('class', 'form-control'); ?>
+                            <div class="control-group  form-group">
+                                <label class="control-label"><?php echo $this->translate($element->getLabel()) ?></label>
+                                <div class="controls">
+                                    <?php echo $this->formElement($element); ?>
+                                </div>
+                            </div> 
+                            <?php
+                        } else {
+                            echo '</div>';
+                            echo '<div class="container">';
+                            echo '<br/><br/>';
+                            echo '<div class="container ' . $element->getName() . '">';
+                            echo $this->formRow($form->get($element->getName()));
+                            echo '</div>';
+                            echo '</div>';
+                        }
+                    }
+                    echo '<br />';
+                    echo $this->form()->closeTag();
+                }

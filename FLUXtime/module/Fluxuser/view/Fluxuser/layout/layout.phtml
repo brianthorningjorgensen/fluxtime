@@ -1,0 +1,100 @@
+<?php echo $this->doctype(); ?>
+<!--Standardsides template -->
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <?php echo $this->headTitle('FLUXtime')->setSeparator(' - ')->setAutoEscape(false) ?>
+
+        <?php
+        echo $this->headMeta()
+                ->appendName('viewport', 'width=device-width, initial-scale=1.0')
+                ->appendHttpEquiv('X-UA-Compatible', 'IE=edge')
+        ?>
+
+
+        <!-- Le styles -->
+        <?php
+        echo $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))
+                ->prependStylesheet($this->basePath() . '/css/bootstrap-theme.min.css')
+                ->prependStylesheet($this->basePath() . '/css/bootstrap.min.css')
+                ->prependStylesheet($this->basePath() . '/css/font-awesome.css')
+                ->prependStylesheet($this->basePath() . '/css/flag-icon.min.css')
+                ->prependStylesheet($this->basePath() . '/css/flag-icon.css')
+                ->appendStylesheet($this->basePath() . '/css/main.css')
+        ?>
+
+        <!-- Scripts -->
+        <?php
+        echo $this->headScript()
+                ->prependFile($this->basePath() . '/js/main.js')
+                ->prependFile('http://jqueryvalidation.org/files/dist/additional-methods.min.js')
+                ->prependFile('http://jqueryvalidation.org/files/dist/jquery.validate.min.js')
+                ->prependFile($this->basePath() . '/js/bootstrap.min.js')
+                ->prependFile($this->basePath() . '/js/jquery.min.js')
+                ->prependFile($this->basePath() . '/js/respond.min.js', 'text/javascript', array('conditional' => 'lt IE 9',))
+                ->prependFile($this->basePath() . '/js/html5shiv.js', 'text/javascript', array('conditional' => 'lt IE 9',));
+        ?>
+
+    </head>
+    <body>
+        <!-- MENU -->
+        <nav class="navbar navbar-default navbar-fixed-top navbar-inverse" role="navigation">
+            <div class="container container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand pull-left fa-stack" href="<?php echo $this->url('mytask'); ?>">
+                        <div id="img_wrap" class="static">
+                            <img id="animated" src="/img/fluxtime_logo_white_animation.gif" alt="">
+                            <img id="static" src="<?php echo $this->basePath('/img/fluxtime_logo_232_80_white.png'); ?>" alt="FluxDevelop" />                                                        
+                            <img id="nopointer" src="<?php echo $this->basePath('/img/fluxtime_logo_232_80_white_nopointer.png'); ?>" alt="FluxDevelop" />                                                        
+                        </div>
+                    </a>
+                </div>
+                <div id="navbar" class="collapse navbar-collapse">
+                   
+                        <?php
+                        $partial = array('navipart', 'default');
+                        echo $this->navigation('Navigation')
+                                ->menu()
+                                ->setMinDepth(0)
+                                ->setMaxDepth(1)
+                                ->setAcl($this->acl)->setRole('guest')
+                                ->setPartial($partial)
+                                ->render();
+                        ?>                   
+                </div>
+
+            </div>
+        </nav>
+        <div class="container" id="viewContent">
+            <?php echo $this->content; ?>
+            <hr>
+        </div> 
+
+        <noscript>
+        <style type="text/css">
+            #viewContent {display:none;}
+        </style>
+        <div class="noscriptmsg container">
+            <br>
+            <br>
+            <br>
+            <p class="btn-danger"> JavaScript is not enabled. Enable JavaScript and reload page. </p>
+        </div>
+        </noscript>
+
+        <!-- /container -->
+        <div class="navbar-fixed-bottom navbar-inverse">
+            <footer style="margin: auto; text-align: center; color:white; font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif">
+                    <p style="padding-top: 10px">
+                    <a href="http://www.supeo.dk">Supeo ApS</a>, Toldbodgade 4, 1.sal, 4700 Næstved, Denmark - P: +45 7199 2520 E: info@supeo.eu  ©  Supeo ApS 2007-2014</p>
+            </footer>
+        </div>
+        <?php echo $this->inlineScript() ?>
+    </body>
+</html>

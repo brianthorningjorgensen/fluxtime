@@ -1,0 +1,155 @@
+<?php
+//Append js-fil
+$this->headScript()->prependFile($this->basePath() . '/js/module/task/index.js');
+//Append tablesorter til tabel med projekter
+$this->headScript()->appendFile($this->basePath().'/js/jquery.tablesorter.min.js');
+//For at køre js fra view
+$this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))->prependStylesheet($this->basePath().'/css/jquery-ui.min.css');
+?>
+
+<?php
+$currentrole = $this->identity() != null ? $this->identity()->getFkuserrole()->getPermissiongroup() : 'guest';
+$title = $this->translate('Project tasks');
+$this->headTitle($title);
+?>
+
+<!--Popup til delete confirmation-->
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" >   <?= $this->translate('Delete task'); ?></h4>
+            </div>
+            <div class="modal-body">
+                <p > <?= $this->translate('You are about to delete the task:'); ?></p>
+                 <p id="deletetext"></p>
+                 <p > <?= $this->translate('Confirm delete task?'); ?></p>
+                <p id="taskIdDelete" hidden="true"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">   <?= $this->translate('Close'); ?></button>
+                <button type="button" id="confirmDeleteButton" class="btn btn-success">
+                    <?= $this->translate('Delete task'); ?>
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- Render form-->
+<div id="contentpageheader">
+    <div id="searchdiv" class=" row">
+        <?php
+        if ($this->form != null) {
+            $form = $this->form;
+            $form->setAttribute('class', 'pull-right');
+            echo $this->form()->render($form);
+        } else {
+            echo $this->translate('Form do not exist');
+        }
+        ?>    
+        <!-- CREATE BUTTON -->
+        <?php
+                        if ($this->layout()->acl->isAllowed($currentrole, 'task/add')) {
+                $pid = $this->encrypt($project->getProjectid(), SECRET_KEY);
+                $encrypt = str_replace('+', '%20', $pid);
+        ?>
+        <a class=" pull-right linkbarSearch fa fa-plus-circle fa-2x" href="/task/add/<?= $encrypt; ?>" data-toggle="tooltip" title="<?= $this->translate("Create new task"); ?>">
+        </a>
+        <?php
+                        }
+        ?>          
+
+        <span class="headerlogo fa fa-tasks fa-3x"></span>
+        <h1 ><?php echo $this->escapeHtml($title); ?></h1>   
+    </div>
+</div>
+
+<!-- Tabel, liste af tasks-->
+<div class="table-responsive">
+    <h3><?= $this->translate($project->getProjectname()); ?></h3>
+    <table id="taskList" class="tablesorter table table-hover table-striped" >
+        <!--Table header-->
+        <thead>
+            <tr>
+                <th hidden="true"><?= $this->translate("id"); ?></th>
+                <th><?= $this->translate("task"); ?></th>
+                <th><?= $this->translate("label"); ?></th>
+                <th><?= $this->translate("creator"); ?></th>
+                <th><?= $this->translate("type"); ?></th>
+                <th><?= $this->translate("Points"); ?></th>
+                <th><?= $this->translate("status"); ?></th>
+                 <th><?= $this->translate("import id"); ?></th>
+                <th><?= $this->translate("actions"); ?></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <!-- Hver task-->
+            <?php foreach ($tasks as $task) : ?>
+                <tr>
+                    <td><?php echo $this->escapeHtml($task->getTaskname()); ?></td>
+
+                    <td><?php
+                        if ($task->getFklabelid() != null) {
+                            $label = $task->getFklabelid()->getLabelname();
+                            echo $this->escapeHtml('' . $label);
+                        } 
+                        ?></td>
+                    <td><?php echo $this->escapeHtml($task->getFkcreator()->getUsername()); ?></td>
+                    <td><?php echo $this->escapeHtml($task->getTasktype()); ?></td>
+                    <td><?php echo $this->escapeHtml($task->getPoints()); ?></td>
+                    <td><?php echo $this->escapeHtml($task->getStatus()); ?></td>
+                     <td><?php echo $this->escapeHtml($task->getSecondid()); ?></td>
+
+                    <td style="width: 100px">                    
+                        <?php
+                        //  Edit buttons 
+                        if ($this->layout()->acl->isAllowed($currentrole, 'task/edit')) {
+                            $tid = $this->encrypt($task->getTaskId(), SECRET_KEY);
+                             $encrypt = str_replace('+', '%20', $tid);
+                            ?>                   
+                        <a class="fa fa-edit fa-2x" Style="padding-right: 20px" href="/task/edit/<?= $encrypt; ?>" data-toggle="tooltip" title="<?= $this->translate("Edit task and manage task owners"); ?>">
+                            </a>
+                            <?php
+                        }
+                             if ($this->layout()->acl->isAllowed($currentrole, 'task/ajaxdelete') && $task->getSecondid() == null) {
+                        // Delete buttons
+                        ?>
+                        <a id="deleteButton" class="fa fa-trash-o fa-2x deleteTask" data-taskid="<?php echo $task->getTaskId(); ?>" data-taskname="<?php echo $task->getTaskname(); ?>" data-toggle="tooltip" title="<?= $this->translate("Delete task"); ?>"></a> 
+   <?php
+                        } ?>
+                    </td>               
+                </tr>
+
+            <?php endforeach; ?>
+
+        </tbody>
+    </table>
+</div>
+
+<!--Error delete alert-->
+<div id="myModalErrorDelete" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" >   <?= $this->translate('Alert'); ?></h4>
+            </div>
+            <!-- dialog body -->
+            <div class="modal-body">
+                <p id="errortext"> <?= $this->translate('Sorry, the task cannot be deleted (timeregistrations added)'); ?></p>
+            </div>
+            <!-- dialog buttons -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-success" data-dismiss="modal">   <?= $this->translate('OK'); ?></button>
+            </div>
+        </div>
+    </div>
+</div>
+<?php ?>
+        
+
+
+

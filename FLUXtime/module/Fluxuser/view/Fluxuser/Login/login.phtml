@@ -1,0 +1,72 @@
+
+<?php
+$this->headLink()->prependStylesheet($this->basePath() . '/css/bootstrap-social.css');
+$title = $this->translate('User Authentication');
+$this->headTitle($title);
+?>
+<div id="contentpageheader">
+    <span class="headerlogo fa fa-user fa-3x"></span>
+    <h1 class="h1text"><?php echo $this->escapeHtml($title); ?></h1>                
+</div>
+
+<?php
+//the form
+// new adresse 
+$form->setAttribute('action', $this->url('login', array('action' => 'login')));
+$form->prepare();
+
+// form content
+echo $this->form()->openTag($form);
+?>
+
+<?php if (!empty($this->messages)) : ?>
+    <div id="error-div" class="alert label-danger" role="alert">
+        <?php foreach ($this->messages as $message) : ?>
+            <?php if (is_string($message)) : ?>
+                <p><strong class="white-text"><?php echo $message ?></strong></p>
+            <?php endif; ?>
+        <?php endforeach; ?>
+        <?php foreach ($form as $element) : ?>
+            <?php if (!empty($this->formElementErrors($element))) : ?>
+                <label class="control-label white-text"><?php echo $this->translate($element->getLabel()) ?></label>
+                <p><strong class="white-text"><?php echo $this->formElementErrors($element) ?></strong></p>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    </div>
+<?php endif; ?>
+
+<div class="form-group">
+    <?php foreach ($form as $element) : ?>
+        <?php if ($element->getName() != 'submit' && $element->getName() != 'id') : ?>
+            <?php $element->setAttribute('class', 'form-control'); ?>
+            <div class="control-group  form-group">
+                <label class="control-label"><?php echo $this->translate($element->getLabel()) ?></label>
+                <div class="controls">
+                    <?php echo $this->formElement($element); ?>
+                </div>
+            </div>
+        <?php elseif ($element->getName() == 'id') : ?>
+            <div class="controls">
+                <?php echo $this->formElement($form->get('id')); ?>
+            </div>
+        <?php endif; ?>
+    <?php endforeach; ?>
+</div>
+
+<div class="btn-group" style="text-align: center;">
+    <div class = "login-submit-button pull-left">
+        <?php $form->get('submit')->setAttribute('class', 'btn btn-success'); ?>
+        <?php echo $this->formRow($form->get('submit')); ?>
+    </div>
+
+    <!-- Add where you want your sign-in button to render -->
+    <div class="pull-right">
+        <a class="btn btn-block btn-social btn-google-plus" href="<?php echo $googleAuth->getAuthUrl(); ?>">
+            <i class="fa fa-google-plus"></i>  <?= $this->translate('Sign in with Google'); ?>
+        </a>
+    </div>
+</div>
+
+<?php $this->form()->closeTag(); ?>
+
+<a href="/profile/resetpassword"><?= $this->translate('Reset password'); ?></a>

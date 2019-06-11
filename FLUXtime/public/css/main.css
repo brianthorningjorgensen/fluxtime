@@ -1,0 +1,455 @@
+body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+}
+
+// bootstrap success knap
+.btn-success {
+    background-color: #57a900;
+    background-image: -moz-linear-gradient(top, #70d900, #57a900);
+    background-image: -ms-linear-gradient(top, #70d900, #57a900);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#70d900), to(#57a900));
+    background-image: -webkit-linear-gradient(top, #70d900, #57a900);
+    background-image: -o-linear-gradient(top, #70d900, #57a900);
+    background-image: linear-gradient(top, #70d900, #57a900);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#70d900', endColorstr='#57a900', GradientType=0);
+}
+
+.btn-success:hover,
+.btn-success:active,
+.btn-success.active,
+.btn-success.disabled,
+.btn-success[disabled] {
+    background-color: #57a900;
+}
+
+.btn-success:active, .btn-success.active {
+    background-color: #57a900;
+}
+
+/*  MENU ICONS */
+
+/* logo placering */
+.navbar-header {
+    padding-left: 20px;
+    margin-top: -5px;
+}
+
+/* topmenu knapper placering fra top */
+ul:first-child {
+    padding-top: 20px; 
+    text-align: center;
+    padding-right: 30px
+}
+
+/* topmenu knapper li */
+.navigation li {
+    margin-top: 0px;
+    float: right;
+    width: 70px;
+    display: inline-block; 
+    *display: inline; /* IE7 hack */
+    *zoom: 1; /* IE7 hack */
+    margin-left: 1px;
+}
+
+/* topmenu knapper tekst*/
+.navigation span {
+    position: relative;
+    padding-top: 12px;
+    padding-bottom: 10px;
+    font-size: 10px; 
+    display: block;
+    color: #aaa;
+}
+
+.navigation a {
+    text-align: center;
+}
+
+/* knapper design */
+.navigation li i:before {
+    background: -webkit-gradient(linear, left top, left bottom, from(#fff), to(#224));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: initial; /* reset Font Awesome's display:inline-block */
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: #111;    
+}​
+
+.navigation li i {
+    color: #ddd;	  
+    position:relative;
+    padding-right: 20px;
+    transition: all .2s ease-in;
+}
+
+/* hover over standard knap */
+.navigation li:hover i { 
+    transform: translate(0px, 6px) scale(1.05,1.05);
+    color: white;
+}
+
+/* active knap */
+.navbar .active span { 
+    color: orange;
+}
+
+.navbar .active i { 
+    -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: white;  
+}
+
+.navbar .active {
+    color:white
+}
+
+/* logo fra top */
+.navbar-brand { 
+    padding-top: 20px; 
+}
+
+/* logo animation */
+#img_wrap img {
+    position: absolute;
+    padding-top: 8px;
+}
+
+#img_wrap #static {
+    z-index: 3;
+}
+
+#img_wrap #animated {
+    z-index: 5;
+}
+
+#img_wrap #nopointer {
+    z-index: 0;
+}
+
+.animated #static, .static #animated {
+    display: none;
+}
+
+.animated #animated, .static #static {
+    display: inline;
+}
+
+/*  */
+@media screen and (max-width: 990px){
+    .navbar-brand { 
+        padding-top: 0;
+    }
+}
+
+/*  */
+@-moz-document url-prefix() {
+    @media screen and (max-width: 992px){
+        .navbar-brand { 
+            padding-top: 0;
+        }
+    }
+}
+
+/* form standard knap */
+.form-submit-button {
+    padding-top: 1em;
+}
+
+@media screen and (max-width: 768px){
+    .form-submit-button { 
+        padding-top: 0;
+    }
+}
+
+@media screen and (min-width: 768px){
+    .form-inline .form-group { 
+        margin-right: 2em;
+    }
+    .form-inline .form-control { 
+        //margin-right: 0.5em;
+    }
+}
+
+/* placering af loop */
+a.linkbarSearch {
+    margin: 0 1em 0 1em;
+    padding-top: 0.2em;
+}
+/* link behavior */
+a:link    {color: #CCC;text-decoration: none;}
+a:visited {color: #aaa;text-decoration: none;}
+a:hover   {color: orange;text-decoration: none; font-weight: bold;}
+a:active  {color: white;text-decoration: none;}
+
+a:link.btn-google-plus    {color: #fff; text-decoration: none;}
+a:visited.btn-google-plus {color: #fff; text-decoration: none;}
+a:hover.btn-google-plus   {color: #fff; text-decoration: none; font-weight: normal;}
+a:active.btn-google-plus  {color: #fff; text-decoration: none;}
+
+/* tables */
+table.tablesorter {
+    font-family:arial;
+    margin:10px 0pt 15px;
+    font-size: 8pt;
+    width: 100%;
+    text-align: left;
+}
+
+/* overskrifter tabel headers */
+table.tablesorter thead tr th, table.tablesorter tfoot tr th {
+    font-size: 8pt;
+    padding: 4px;
+}
+
+/* enkelte celle */
+table.tablesorter tbody td {
+    color: #3D3D3D;
+    padding: 4px;
+    vertical-align: top;
+}
+
+/* enkelte cell lige */
+table.tablesorter tbody tr.odd td {
+    background-color:#F0F0F6;
+}
+
+/* not confirmed users icon */
+span.fa-minus-square {
+    color: #f0ad4e;
+}
+
+/* confirmed users color */
+span.fa-check-square {
+    color: #5cb85c;
+}
+
+/* links in tablebody */
+tbody a {
+    padding-right: 1em;
+}
+
+/* table head */
+thead th {
+    background-color: black;
+    border-style: solid;
+    border-color: black;
+    border-bottom-color: orange;
+    border-bottom-width: 2px;
+}
+
+/* table head hover */
+thead th:hover {
+    color: orange;
+}
+
+/* table head */
+th {
+    text-transform: inherit;
+    white-space: nowrap;
+    color: #FFFFFF;
+    padding: 2px 10px 2px 10px;
+    // border-right: #FFFFFF;
+    // border-right: white;
+    border-right: black;
+    border-width: 1px;
+    border-style: none dotted none none;
+    text-transform: uppercase;
+}
+
+/* content page header with icons */
+#contentpageheader {
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 25px;
+    -webkit-border-bottom-right-radius: 0px;
+    -webkit-border-bottom-left-radius: 25px;
+
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 25px;
+    -moz-border-radius-bottomright: 0px;
+    -moz-border-radius-bottomleft: 25px;
+
+    border-top-left-radius: 5px;
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 0px;
+    border-bottom-left-radius: 25px;
+
+    background-color: #1D1A21;
+    padding: 1em 0 0.1em 0;
+    margin: 4em 0 2em 0;
+}
+
+/* search div*/
+#searchdiv  {
+    padding-left: 2em;
+    padding-right: 2em;
+}
+
+/* overskrifter */ 
+h1  {
+    font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif;   
+    font-size: 30px;
+    color: #AAA;
+    text-transform: uppercase;
+    padding-top: 10px;
+    letter-spacing: 0.15em;
+    font-weight: 400;    
+    margin-left: 1em;
+    display: initial;
+    background-color: transparent;
+    text-transform: uppercase;
+    padding-top: 0.833em;
+}
+
+/* content page header logo */
+span.headerlogo {  
+    padding-left: 0.5em;
+    margin-bottom: 0.1em;
+    color: #555;
+}
+
+/* content page header search box active checkbox*/
+#searchdiv input[type="checkbox"]  {
+    max-width: 50px;
+    -ms-transform: scale(1.9); /* IE */
+    -moz-transform: scale(1.9); /* FF */
+    -webkit-transform: scale(1.9); /* Safari and Chrome */
+    -o-transform: scale(1.9); /* Opera */
+    margin-top:1em; // center to middle of searchdiv    
+}
+
+/* content page header search box all input fields  */
+#searchdiv input {
+    background-color:#333;
+    border-bottom-color: #F8F8F8;
+    border-bottom-style: solid; 
+    border-bottom-width: 1px;  
+
+    width: 20em;
+    color: white;
+
+    -webkit-border-top-left-radius: 10px;
+    -webkit-border-top-right-radius: 10px;
+    -webkit-border-bottom-right-radius: 10px;
+    -webkit-border-bottom-left-radius: 10px;
+
+    -moz-border-radius-topleft: 10px;
+    -moz-border-radius-topright: 10px;
+    -moz-border-radius-bottomright: 10px;
+    -moz-border-radius-bottomleft: 10px;
+
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    
+    display: inline;
+}
+
+#project label {
+    color: white;
+    text-transform: uppercase; 
+    padding-left:10px;
+}
+
+#project label.error {
+    color: black;
+    text-transform: uppercase; 
+    padding-left:10px;
+}
+
+#searchdiv button {
+    color: darkgray;
+    margin-left: 6px;
+    border:2px solid #1D1A21;
+    background-color:#1D1A21;
+    color:#fafafa;
+}
+
+/* content page header search box button hover */
+#searchdiv button:hover { color: orange; }
+
+/* content page header search box textarea */
+#searchdiv .textfield {    
+    text-indent: 10px;
+    outline: none;
+    font-size: 12px;  
+    float: right;
+    height: 30px;
+    display: inline;
+    margin: 5px 0;
+    margin-left: 2em;
+}
+
+/* content page header search box textfield hover/active/focus */
+#searchdiv .textfield:hover, #searchdiv .textfield:active, #searchdiv .textfield:focus { background-color: #555  }
+
+/* label generel */
+label {
+    width: 100px;
+    font-size: 12px;
+    color: black;
+    display: inline;
+    
+}
+
+/* linkbarsearch button behavior */
+.linkbarSearch:link {color: #CCC;text-decoration: none;}
+.linkbarSearch:visited {color: #aaa;text-decoration: none;}
+.linkbarSearch:hover {color: orange;text-decoration: none; font-weight: bold; }
+.linkbarSearch:active {color: white;text-decoration: none;}
+
+/*  */
+#viewContent{
+    margin-top: 2.5em;
+}
+
+/* generel knap */
+.button{
+    height: 30px;
+    width: 30px;
+    display: inline;
+    float: right;
+    margin-top: 5px;
+    margin-right: 10px;
+    content: "\f002";
+    font-family: FontAwesome;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+    color: black;
+    font-size: 18px;
+    text-align:left;
+}
+
+.login-submit-button {
+    padding-right: 1em;
+}
+
+.rowNotHidden{
+    display: table-row;
+}
+
+.memberselect{
+    width: 200px;
+}
+
+.nolines td{
+    border-top: none !important;
+}
+
+.tableunderline{
+    border-bottom: 4px solid #000 !important;
+}
+
+form .error{
+    display: block;
+}
+
+.white-text{
+    color: white !important;
+}
+
+.flux-flag{
+    padding: 1em;
+}

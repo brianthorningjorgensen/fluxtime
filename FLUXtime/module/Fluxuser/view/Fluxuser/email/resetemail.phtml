@@ -1,0 +1,10 @@
+<!--Reset password email-->
+<h1><?= $this->translate('FLUXtime: Lost Password'); ?></h1>
+<br />
+<br />
+<p><?= $this->translate('Reset FLUXtime password'); ?>.</p>
+<p><?= $this->translate('Username:') . $setTo;  ?></p>
+<p><?= $this->translate('Please reset password within 24 hours'); ?>.</p>
+<p><?= $this->translate('Please follow this link'); ?></p>
+
+<a href="<?= $_SERVER['HTTP_HOST'] ?>/profile/confirmresetpassword/<?= $emailId ?>"><?= $this->translate('Change password'); ?></a>

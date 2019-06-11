@@ -1,0 +1,221 @@
+<?php
+//Append js-fil
+$this->headScript()->prependFile($this->basePath() . '/js/module/account/index.js');
+//Append tablesorter til tabel med projekter
+$this->headScript()->appendFile('../js/jquery.tablesorter.min.js');
+//For at køre js fra view
+$this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))->prependStylesheet('../css/jquery-ui.min.css');
+$this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))->prependStylesheet($this->basePath() . '/css/account/accountcustom.css');
+?>
+
+<?php
+$currentrole = $this->identity() != null ? $this->identity()->getFkuserrole()->getPermissiongroup() : 'guest';
+$title = $this->translate('System accounts');
+$this->headTitle($title);
+?>
+
+<!--Popup til delete confirmation-->
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">   <?= $this->translate('Delete account'); ?></h4>
+            </div>
+            <div class="modal-body">
+                <p > <?= $this->translate('You are about to delete the account:'); ?></p>
+                   <p id="deletetext"></p>
+               <p ><?= $this->translate('If deleted (or not active), the account users cannot login or access the system.'); ?></p>
+               <p ><?= $this->translate('Confirm delete account?'); ?></p>
+                <p id="accountIdDelete" hidden="true"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">   <?= $this->translate('Close'); ?></button>
+                <button type="button" id="confirmButton" class="btn btn-success">
+                    <?= $this->translate('Delete account'); ?>
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- Render form-->
+<div id="contentpageheader">
+    <div id="searchdiv" class=" row">
+        <?php
+        if ($this->form != null) {
+            $form = $this->form;
+            $editform = $this->editform;
+            $form->setAttribute('class', 'pull-right');
+            echo $this->form()->render($form);
+        } else {
+            echo $this->translate('Form do not exist');
+        }
+        ?>    
+        <!-- CREATE BUTTON -->
+        <?php if ($this->layout()->acl->isAllowed($currentrole, 'account/add')) { ?>
+            <a class=" pull-right linkbarSearch fa fa-plus-circle fa-2x" href="<?php echo $this->url('account', array('action' => 'add')); ?>" data-toggle="tooltip" title="<?= $this->translate("Create new account and account admin"); ?>">
+            </a>
+            <?php }
+        ?>          
+
+        <span class="headerlogo fa fa-folder-open fa-3x"></span>
+        <h1 ><?php echo $this->escapeHtml($title); ?></h1>   
+    </div>
+</div>
+
+<!-- Tabel - liste af projekter-->
+<div class="table-responsive">
+    <table id="accountList" class="tablesorter table table-hover table-striped" >
+        <!--            Table header-->
+        <thead>
+            <tr>
+                <th><?= $this->translate(" System account id"); ?></th>
+                <th><?= $this->translate("Account owner"); ?></th>
+                <th><?= $this->translate("2nd Account id"); ?></th>
+                <th><?= $this->translate("Status"); ?></th>
+                 <th><?= $this->translate("Client"); ?></th>
+                <th hidden="true"><?= $this->translate("Description"); ?></th>
+                <th style='width:150px'><?= $this->translate("actions"); ?></th>
+            </tr>
+        </thead>
+
+
+        <tbody>
+            <!-- For hvert projekt-->
+            <?php foreach ($accounts as $account) : ?>
+                <tr>
+                    <td><?php echo $this->escapeHtml($account->getAccountid()); ?></td> 
+
+                    <td><?php echo $this->escapeHtml($account->getCustomer()); ?></td>
+
+                    <td><?php echo $this->escapeHtml($account->getCustomerid()); ?></td>
+                    <?php
+                    $active = "";
+                    if ($account->getActive() === 1) {
+                        $active = 'Active';
+                    } else {
+                        $active = 'Inactive';
+                    }
+                    ?>
+                    <td><?php echo $this->escapeHtml($active); ?></td>
+                    <?php 
+                    if(count($accountclients) > 0){
+                    foreach($accountclients as $ac) :
+                        if ($ac->getFkaccountid()->getAccountid() == $account->getAccountid()) {
+                      $client = $ac->getFkclientid()->getClientname();
+                      $clientid = $ac->getFkclientid()->getClientid();
+                    } else{
+                        $client = '';
+                        $clientid = '';
+                    }endforeach; 
+                    }else{
+                      $client = '';
+                        $clientid = '';  
+                    }
+                    ?><td><?php echo $this->escapeHtml($client); ?></td>
+                    <td hidden="true"><?php echo $this->escapeHtml($account->getDescription()); ?></td>
+                    <td style="width: 100px">                    
+                        <?php
+                        //  Edit buttons 
+                        if ($this->layout()->acl->isAllowed($currentrole, 'account/ajaxedit') && $account->getAccountid() != 1) {
+                       if($clientid != ''){
+                            $cid = $this->encrypt($clientid, SECRET_KEY);
+                             $encrypt = str_replace('+', '%20', $cid);
+                       } else {
+                           $encrypt = '';
+                       } ?>                   
+                            <a class="fa fa-edit fa-2x editAccount" Style="padding-right: 20px" 
+                               href="" data-accountid="<?php echo $account->getAccountid(); ?>" data-customer="<?php echo $account->getCustomer(); ?>"
+                               data-customerid="<?php echo $account->getCustomerid(); ?>" data-description="<?php echo $account->getDescription(); ?>"
+                               data-active="<?php echo $account->getActive(); ?>"  data-clientid="<?php echo $encrypt; ?>"
+                               data-client="<?php echo $client; ?>"
+                               data-toggle="tooltip" title="<?= $this->translate("Edit account"); ?>">
+                            </a>
+                            <?php
+                        }
+
+                        // Delete buttons                     
+                        if ($this->layout()->acl->isAllowed($currentrole, 'account/ajaxdelete') && $account->getAccountid() != 1) {
+                            ?>
+                            <a id="deleteButton" class="fa fa-trash-o fa-2x deleteAccount" href="" data-accountid="<?php echo $account->getAccountid(); ?>" data-customer="<?php echo $account->getCustomer(); ?>" data-toggle="tooltip" title="<?= $this->translate("Delete account (account users cannot login if account is deleted)"); ?>"></a> 
+                            <?php
+                        } if($clientid != ''){
+                            $cid = $this->encrypt($clientid, SECRET_KEY);
+                             $encrypt = str_replace('+', '%20', $cid);
+                        ?>
+                             <a  class="fa fa-briefcase fa-2x " href="/client/edit/<?=$encrypt?>"  data-toggle="tooltip" title="<?= $this->translate("View client"); ?>"></a> 
+                           
+                            <?php
+                        }
+                            ?>
+                    </td>
+                </tr>
+<?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
+
+<!--Popup til edit account-->
+<div class="modal fade" id="myModalEdit" >
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title"><?= $this->translate('Edit account'); ?></h4>
+            </div>
+            <div class="modal-body">
+                <?php
+                $editform->prepare();
+                echo $this->form()->openTag($editform);
+                ?><div class="container form-group">
+                <?php foreach ($editform as $element) : ?>
+                    <?php $element->setAttribute('class', 'form-control'); ?>
+                        <label class="control-label"><?php echo $element->getLabel() ?></label>
+                        <div class="controls">
+                            <?php echo $this->formElement($element); ?>
+                            <span class="help-inline"><?php echo $this->formElementErrors($element) ?></span>
+                        </div>
+                    <?php endforeach; ?>
+                </div>
+                <?php
+                echo $this->form()->closeTag();
+                ?>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->translate('Close'); ?></button>
+                <button type="button" id="confirmEditButton" class="btn btn-success" >
+                    <?= $this->translate('Save account'); ?>
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+  <!--Error alert-->
+                <div id="myModalError" class="modal fade">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                <h4 class="modal-title" >   <?= $this->translate('Alert'); ?></h4>
+                            </div>
+                            <!-- dialog body -->
+                            <div class="modal-body">
+                                <p id="errortext"> </p>
+                            </div>
+                            <!-- dialog buttons -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-success" data-dismiss="modal">   <?= $this->translate('OK'); ?></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+<br />
+<?php ?>
+        
+
+
+

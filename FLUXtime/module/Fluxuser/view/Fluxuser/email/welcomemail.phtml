@@ -1,0 +1,18 @@
+<!--Welcome email-->
+<h1><?= $this->translate('Welcome to FLUXtime'); ?></h1>
+<br />
+<br />
+<p><?= $name . $this->translate(' have been created as a user in FLUXtime'); ?></p>
+<p><?= $this->translate('Username: ') . $setTo; ?></p>
+<p><?= $this->translate('Password: ') . $password; ?></p>
+<p><?= $this->translate('Please varify account within 24 hours'); ?>.</p>
+<p><?= $this->translate('Follow this link to varify'); ?>.</p>
+
+<a href="<?= $_SERVER['HTTP_HOST'] ?>/profile/confirmuser/<?= $emailId ?>">Sign up</a>
+
+
+
+        
+ 
+        
+

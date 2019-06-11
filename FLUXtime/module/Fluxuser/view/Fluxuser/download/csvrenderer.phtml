@@ -1,0 +1,26 @@
+<?php
+if (count($results) > 0) {
+    $fh = @fopen( 'php://output', 'w' );
+
+    // heading
+    fputcsv($fh, array( 'Report of timeregistrations:'), ';');
+    fputcsv($fh, array( ''), ';');
+    
+    // rows of the csv
+    $headerDisplayed = false;
+    foreach ( $results as $line ) {
+        // a headers names
+        if ( !$headerDisplayed ) {
+            fputcsv($fh, array_keys($line), ';');
+            $headerDisplayed = true;
+        }
+ 
+        // apply data to stream
+        fputcsv($fh, $line, ';');
+    }
+    // close file
+    fclose($fh);
+    
+    
+    
+}

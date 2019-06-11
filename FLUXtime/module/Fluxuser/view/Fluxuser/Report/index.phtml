@@ -1,0 +1,83 @@
+
+
+<?php
+$currentrole = $this->identity()!=null ? $this->identity()->getFkuserrole()->getPermissiongroup() : 'guest';
+$title = $this->translate('Reports - overview');
+$this->headTitle($title);
+?>
+
+
+<style>
+    .nolines td{
+        border-top: none;
+    }
+    
+</style>
+
+
+    
+<!-- Render form-->
+<div id="contentpageheader">
+    <div id="searchdiv" class="row timeregsearch">
+        <?php    
+        if ($this->form != null) {
+            $form = $this->form;
+            $form->setAttribute('class', 'pull-right');
+            echo $this->form()->render($form);
+        }  
+        ?>    
+        <a class=" pull-right linkbarSearch" href="<?php echo $this->url('report', array('action' => 'client')); ?>" data-toggle="tooltip" title="<?= $this->translate("Create a new clientreport"); ?>">
+        <?= $this->translate('CLIENT REPORT'); ?></a>
+        <a class=" pull-right linkbarSearch" href="<?php echo $this->url('report', array('action' => 'project')); ?>" data-toggle="tooltip" title="<?= $this->translate("Create a new projectreport"); ?>">
+        <?= $this->translate('PROJECT REPORT'); ?></a>
+        <a class=" pull-right linkbarSearch" href="<?php echo $this->url('report', array('action' => 'user')); ?>" data-toggle="tooltip" title="<?= $this->translate("Create a new userreport"); ?>">
+        <?= $this->translate('USER REPORT'); ?></a>
+        <span class="headerlogo fa fa-copy fa-3x"></span>
+        <h1 ><?php echo $this->escapeHtml($title); ?></h1>   
+    </div>
+</div>
+
+
+    <table class="nolines tablesorter table table-hover table-striped ">
+        <thead>
+            <tr>
+                <th><?= $this->translate("Client"); ?>&nbsp;&nbsp;&nbsp; <i class='fa fa-briefcase'></i></th>
+                <th><?= $this->translate("project"); ?>&nbsp;&nbsp;&nbsp; <i class='fa fa-folder-open'></i></th>
+                <th><?= $this->translate("user"); ?>&nbsp;&nbsp;&nbsp; <i class='fa fa-user'></i></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <?php 
+                    foreach($clients as $clientname => $projectarray) {
+                        echo '<tr>';                        
+                        echo '<td class="active">' . strtoupper( $clientname ) . '</td>';
+                        echo '<td class="active"></td>';
+                        echo '<td class="active">';
+                                foreach($projectarray as $projectname => $userarray) {
+                                        echo '<tr>';
+                                            echo '<td></td>'; 
+                                            echo '<td class="tableunderline">' . $projectname . '</td>';
+                                            echo '<td class="tableunderline"></td>';
+                                                foreach($userarray as $user) {
+                                                        echo '<tr>';                            
+                                                            echo '<td></td>'; 
+                                                            echo '<td></td>';                                     
+                                                            echo '<td>';                                
+                                                                echo ucfirst($user);
+                                                            echo '</td>';
+                                                        echo '</tr>';                            
+                                                }
+                                         echo '</td>';
+                                        echo '</tr>';                
+                                }
+                        echo '</td>';
+                        echo '<td></td>'; 
+                        echo '<td></td>'; 
+                        echo '</tr>'; 
+                    }
+                    ?>
+        </tbody>
+    </table> 
+   
+</div>

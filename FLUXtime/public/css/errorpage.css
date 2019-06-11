@@ -1,0 +1,22 @@
+body {
+     font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif; 
+}
+
+h1{
+     font-family: "Avant Garde", Avantgarde, "Century Gothic", CenturyGothic, "AppleGothic", sans-serif; 
+     margin-top: 50px;
+     color: #888;
+}
+
+img {
+    display: block;
+    margin-left: auto;
+    margin-right: auto; 
+}
+
+#errorpage {
+    text-align: center;
+    display: block;
+    margin-left: auto;
+    margin-right: auto; 
+}

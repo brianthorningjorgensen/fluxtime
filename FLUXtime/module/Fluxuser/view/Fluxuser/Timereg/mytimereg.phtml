@@ -1,0 +1,88 @@
+<?php
+//Append js-fil
+//Append tablesorter til tabel 
+$this->headScript()->appendFile('../js/jquery.datetimepicker.js');
+$this->headScript()->appendFile('../js/jquery.tablesorter.min.js');
+$this->headScript()->appendFile('../js/module/timereg/mytimereg.js');
+
+//For at køre js fra view
+$this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))->prependStylesheet('../js/jquery.datetimepicker.css');
+$this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))->prependStylesheet('../css/jquery-ui.min.css');
+$this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))->prependStylesheet('../css/timereg/timeregcustom.css');
+?>
+
+<?php
+$currentrole = $this->identity()!=null ? $this->identity()->getFkuserrole()->getPermissiongroup() : 'guest';
+$title = $this->translate('My Log');
+$this->headTitle($title);
+?>
+
+<!-- Render form-->
+<div id="contentpageheader">
+    <div id="searchdiv" class="row timeregsearch">
+        <?php    
+        if ($this->form != null) {
+            $form = $this->form;
+            $form->setAttribute('class', 'pull-right');
+            echo $this->form()->render($form);
+        }  
+        ?>    
+
+        <span class="headerlogo fa fa-list fa-3x"></span>
+        <h1 ><?php echo $this->escapeHtml($title); ?></h1>   
+    </div>
+</div>
+
+<!-- Tabel - liste af projekter med tilhørende task-->
+<div class="table-responsive">
+    
+    <table id="timeregList" class="tablesorter table table-hover table-striped" >
+        <!-- Table header-->
+        <thead>
+            <tr>
+                <th hidden="true"><?= $this->translate("id"); ?></th>
+                <th><?= $this->translate("task name"); ?></th>
+                <th><?= $this->translate("start"); ?></th>                
+                <th><?= $this->translate("stop"); ?></th>
+                <th><?= $this->translate("project"); ?></th>
+                <th><?= $this->translate("label"); ?></th>
+                <th><?= $this->translate("time"); ?></th>                
+            </tr>
+        </thead>
+
+        <tbody>
+            <!-- For hvert task-->
+            <?php 
+            $lastprojectname = '';
+            if ( isset($timeregs) ) {
+                foreach ($timeregs as $timereg){                     
+                    $start = new DateTime();
+                    $start->setTimestamp($timereg->getTimestart()->getTimestamp());
+                    if ($timereg->getTimestop() != null ) {
+                        $stop = new DateTime();
+                        $stop ->setTimestamp($timereg->getTimestop()->getTimestamp());
+                        $stopstring = $stop->format('d-m-Y H:i (s)');
+                        $timediff = $stop->getTimestamp() - $start->getTimestamp();
+                        $diff = floor($timediff / 3600) . ':' . floor(($timediff / 60) % 60) . ':' . $timediff % 60;
+                    } else {
+                        $stopstring = '<span class="btn-warning">&nbsp;&nbsp;' .  $this->translate( 'Running' ) . '&nbsp;&nbsp;</span>';
+                        $diff = '-';
+                    }
+                    $tasklabel = "<td></td>";
+                     if($timereg->getFktaskownerid()->getFktaskid()->getFklabelid() != null){
+                        $tasklabel = '<td>' . $this->escapeHtml($timereg->getFktaskownerid()->getFktaskid()->getFklabelid()->getLabelname()).'</td>'  ;
+                     }
+                    echo '<tr>
+                        <td>' . $this->escapeHtml($timereg->getFktaskownerid()->getFktaskid()->getTaskname()) . '</td>
+                        <td>' . $this->escapeHtml( $start->format('d-m-Y H:i (s)') ) . '</td>
+                        <td>' . $stopstring . '</td>
+                        <td>' . $this->escapeHtml($timereg->getFktaskownerid()->getFktaskid()->getFkprojectid()->getProjectname()) . '</td>'.
+                          $tasklabel                    
+                       .'<td id="duration">' . $diff. '</td>
+                    </tr>';
+                }                  
+            }
+            ?>
+        </tbody>        
+    </table>
+</div>

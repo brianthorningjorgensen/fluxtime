@@ -1,0 +1,235 @@
+<?php
+//Append js-fil
+$this->headScript()->prependFile($this->basePath() . '/js/module/task/edit.js');
+$this->headScript()->prependFile('/js/jquery.tablesorter.min.js');
+?>
+
+<?php
+//Page title
+$title = $this->escapeHtml('Edit task');
+$this->headTitle($title);
+?>
+<!--Heading-->
+<div id="contentpageheader">
+    <h1>
+        <span class="headerlogo fa fa-tasks"></span>
+        <span class="h1text"> <?= $title ?> <span>                
+                </h1>
+                </div>  
+                <div>
+                    <h3><?= $this->translate($task->getFkprojectid()->getProjectname()); ?></h3>
+                    <?php if (!$imported) { ?>
+                        <h6> <?= $this->translate('This task is not visible in any external systems (created in FLUXtime)') ?></h6> 
+                    <?php } else {
+                        ?>
+                        <h6> <?= $this->translate('This task cannot be edited - imported from an external system') ?></h6> 
+                    <?php }
+                    ?>
+                </div>
+
+                <div id="taskadd">
+                    <!-- modal -->
+                    <!--Popup til add owner-->
+                    <div class="modal fade" id="myModalOwner">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                    <h4 class="modal-title"><?= $this->translate('Add task owner'); ?></h4>
+                                </div>
+                                <div class="modal-body">  
+                                    <h6 id="ownermessage"></h6>
+                                    <?php
+                                    $formOwner->prepare();
+                                    echo $this->form()->openTag($formOwner);
+                                    ?>
+                                    <div class="container form-group">
+                                        <?php foreach ($formOwner as $element) : ?>
+                                            <?php // if ($element->getName() !== 'fktaskid') : ?>
+                                            <?php $element->setAttribute('class', 'form-control'); ?>
+                                        
+                                            <?php if ($element->getName() === 'fktaskid') : ?>
+                                                <label class="control-label"><?php echo $element->getLabel() ?></label>
+                                                <?php else : ?>
+                                                <label class="control-label"><?php echo $this->translate($element->getLabel()) ?></label>
+                                            <?php endif; ?>
+                                                
+                                            <div class="controls">
+                                                <?php echo $this->formElement($element); ?>
+                                                <span class="help-inline"><?php echo $this->formElementErrors($element) ?></span>
+                                            </div>
+                                        <?php endforeach; ?>
+                                    </div>
+                                    <?php
+                                    echo $this->form()->closeTag();
+                                    ?>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->translate('Close'); ?></button>
+                                    <button type="button" id="confirmButton" class="btn btn-success">
+                                        <?= $this->translate('Add task owner'); ?>
+                                    </button>
+                                </div>
+                            </div><!-- /.modal-content -->
+                        </div><!-- /.modal-dialog -->
+                    </div><!-- /.modal -->
+
+
+
+                    <!--Form-->
+                    <?php
+                    $form->setAttribute('action', $this->url(
+                                    'task', array(
+                                'action' => 'edit',
+                                'id' => $task->getTaskid(),
+                                    )
+                    ));
+                    $form->prepare();
+
+//Form content
+                    echo $this->form()->openTag($form);
+                    echo $this->formHidden($form->get('taskid'));
+                    ?>
+
+                    <div id="error-div" class="alert label-danger hidden" role="alert">
+                        <?php foreach ($this->messages as $message) : ?>
+                            <?php if (is_string($message)) : ?>
+                                <strong class="white-text"><?php echo $message ?></strong>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                        <?php foreach ($form as $element) : ?>
+                            <?php if (!empty($this->formElementErrors($element))) : ?>
+                                <label class="control-label white-text"><?php echo $this->translate($element->getLabel()) ?></label>
+                                <strong class="white-text"><?php echo $this->formElementErrors($element) ?></strong>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </div>
+
+                    <div class="container form-group">
+                        <?php foreach ($form as $element) : ?>
+                            <?php if ($element->getName() != 'submit' && $element->getName() != 'taskid') : ?>
+                                <?php $element->setAttribute('class', 'form-control'); ?>
+                                <div class="input-group form-group">
+                                    <label class="control-label"><?php echo $this->translate($element->getLabel()) ?></label>
+                                    <div class="controls">
+                                        <?php echo $this->formElement($element); ?>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+                <br />
+                <?php if (!$imported) { ?>
+                    <div class="container <?php echo $form->get('submit')->getName(); ?>">
+                        <?php echo $this->formRow($form->get('submit')); ?>
+                        <!--Return til task for project siden-->
+                        <?php
+                        $projectid = $this->encrypt($task->getFkprojectid()->getProjectid(), SECRET_KEY);
+                        $encrypt = str_replace('+', '%20', $projectid);
+                        ?>
+                        <a class="btn btn-default" href="/task/index/<?= $encrypt ?>" style="margin-left: 15px;"> 
+                            <?= $this->translate("Return to tasks"); ?>
+                        </a>
+                        <a class="btn btn-default" href="/project/edit/<?= $encrypt ?>" style="margin-left: 15px;"> 
+                            <?= $this->translate("View project"); ?>
+                        </a>
+                    </div>
+                <?php } else { ?>
+                    <div>
+                        <!--Return til task for project siden-->
+                        <?php
+                        $projectid = $this->encrypt($task->getFkprojectid()->getProjectid(), SECRET_KEY);
+                        $encrypt = str_replace('+', '%20', $projectid);
+                        ?>
+                        <a class="btn btn-default" href="/task/index/<?= $encrypt ?>" style="margin-left: 15px;"> 
+                            <?= $this->translate("Return to tasks"); ?>
+                        </a>
+                        <a class="btn btn-default" href="/project/edit/<?= $encrypt ?>" style="margin-left: 15px;"> 
+                            <?= $this->translate("View project"); ?>
+                        </a>
+                    </div>
+                <?php } ?>
+                <br />
+
+                <!-- Liste af task owners -->
+                <div class="table-responsive">
+                    <table id="ownerList" class="tablesorter table table-hover table-striped" style="width: 500px; margin-left: 20px; display:inline ">
+                        <thead>
+                            <tr>
+                                <th hidden="true"><?= $this->translate("ownerid"); ?></th>
+                                <th hidden="true"><?= $this->translate("userid"); ?></th>
+                                <th ><?= $this->translate("Task owners - Username"); ?></th>
+
+                                <th style="width: 100px"><?= $this->translate("actions"); ?>  
+                                    <?php if (!$imported) { ?>
+                                        <a id="newButton"  class="fa fa-plus-circle addowner" style="padding-left: 20px" title="<?= $this->translate('Add new task owner') ?>">
+                                        <?php } ?>
+                                    </a> 
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <tbody id="ownertbody" >
+                            <tr class="templaterow" hidden="true">
+                                <td id="template_ownerid" hidden="true"></td> 
+                                <td id="template_userid" hidden="true"></td> 
+                                <td id="template_username"></td>
+                                <td>                       
+                                    <div id="" href="" class="fa fa-trash-o fa-2x deleteOwner" title="<?= $this->translate('Remove task owner') ?>" data-username="" data-ownerid="" data-userid=""  >
+                                </td>
+                            </tr> 
+                            <!-- Hvert owner-->
+                            <?php foreach ($owners as $owner) : ?>
+                                <tr>
+                                    <td  hidden="true"><?php echo $this->escapeHtml($owner->getTaskownerid()); ?></td> 
+                                    <td hidden="true"><?php echo $this->escapeHtml($owner->getFkuserid()->getId()); ?></td>
+                                    <td><?php echo $this->escapeHtml($owner->getFkuserid()->getUsername()); ?></td>
+                                    <td>
+                                        <?php if (!$imported) { ?>
+                                            <!--Delete buttons-->
+                                            <div id="<?php echo $owner->getTaskownerid(); ?>" href="" class="fa fa-trash-o fa-2x deleteOwner"  title="<?= $this->translate('Remove task owner') ?>" 
+                                                 data-username="<?php echo $owner->getFkuserid()->getUsername(); ?>" 
+                                                 data-userid="<?php echo $owner->getFkuserid()->getId(); ?>" 
+                                                 data-ownerid="<?php echo $owner->getTaskownerid(); ?>" >
+                                            </div>  
+                                        <?php } ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!--Popup til delete label confirmation-->
+                <div class="modal fade" id="myModalDelete">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                <h4 class="modal-title">
+                                    <?= $this->translate('Remove task owner'); ?>
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <p><?= $this->translate('You are about to remove the task owner:'); ?> </p>
+                                <p id="usernameDelete" ></p>
+                                <p><?= $this->translate('Confirm remove task owner?'); ?> </p>
+
+                                <p id="ownerIdDelete" hidden="true"></p>
+                                <p id="userIdDelete" hidden="true"></p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">
+                                    <?= $this->translate('Close'); ?>
+                                </button>
+                                <button type="button" id="confirmDeleteButton" class="btn btn-success">
+                                    <?= $this->translate('Remove task owner'); ?>
+                                </button>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+
+
+

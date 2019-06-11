@@ -1,0 +1,122 @@
+<?php
+$this->headScript()->appendFile('../js/jquery.tablesorter.min.js');
+$this->headScript()->appendFile('../js/module/fluxuser/index.js');
+$this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))->prependStylesheet('../css/jquery-ui.min.css');
+?>
+
+<?php
+$currentrole = $this->identity() != null ? $this->identity()->getFkuserrole()->getPermissiongroup() : 'guest';
+
+$title = $this->translate('Users');
+$this->headTitle($title);
+?>
+
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title"><?php echo $this->translate('Delete user'); ?></h4>
+            </div>
+            <div class="modal-body">
+                <p id="deleteuserid" hidden="true"></p>
+                <p><?php echo $this->translate('You are about to delete the user:') ?></p>
+                <p id="info"></p>
+                    <p><?php echo $this->translate('If deleted, the user cannot login.'); ?></p>
+                      <p><?php echo $this->translate('Please note that the user will not be removed from tasks or projects, but cannot access the system.'); ?></p>
+                <p><?php echo $this->translate('Confirm delete user?'); ?></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $this->translate('Close'); ?></button>
+                <button type="button" id="confirmButton" class="btn btn-success">
+                    <?php echo $this->translate('Delete user'); ?>
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div id="contentpageheader">
+    <div id="searchdiv" class=" row">
+        <?php
+        if ($this->form != null) {
+            $form = $this->form;
+            $form->setAttribute('class', 'pull-right');
+            echo $this->form()->render($form);
+        } else {
+            echo $this->translate('Form do not exist');
+        }
+        ?>
+        <!-- CREATE BUTTON -->
+        <?php if ($this->layout()->acl->isAllowed($currentrole, 'fluxuser/add')) { ?>
+            <a class="linkbar pull-right linkbarSearch fa fa-plus-circle fa-2x" href="<?php echo $this->url('fluxuser', array('action' => 'add')); ?>" data-toggle="tooltip" title="<?= $this->translate("Create a new user"); ?>" ></a>
+            <?php }
+        ?> 
+
+        <div class="grid">
+            <span class="headerlogo fa fa-users fa-3x"></span>
+            <h1 class="h1text inline"><?php echo $this->escapeHtml($title); ?></h1>                
+        </div>
+    </div>
+</div>
+
+<div class="tablesorter table-responsive">
+    <table id="userList" class="table table-hover table-striped tablesorter" >
+        <thead>
+            <tr>
+                <th hidden="true"><?= $this->translate("Id"); ?></th>
+
+                <th><?= $this->translate("First name"); ?></th>
+                <th><?= $this->translate("Last name"); ?></th>
+                <th><?= $this->translate("Username"); ?></th>
+                <th><?= $this->translate("Permissions"); ?></th>
+                <th style="width: 150px"><?= $this->translate("Actions"); ?></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <?php foreach ($users as $user) : ?>
+                <tr>
+                    <td hidden="true"><?php echo $this->escapeHtml($user->getId()); ?></td>
+
+                    <td><?php echo $this->escapeHtml($user->getFirstname()); ?></td>
+                    <td><?php echo $this->escapeHtml($user->getLastname()); ?></td>
+                    <td><?php echo $this->escapeHtml($user->getUsername()); ?></td>
+                    <td><?php echo $this->escapeHtml($user->getFkuserrole()->getPermissiongroup()); ?></td>
+
+                    <td>
+                        <!-- Edit button -->
+                        <?php 
+                          
+                        if ($user->getState() == 1) : ?>
+                            <span class="fa fa-check-square fa-2x text-success" data-toggle="tooltip" title="<?= $this->translate('Confirmed') ?>" Style="padding-right: 20px"></span>
+                        <?php else : ?>
+                            <span class="fa fa-minus-square fa-2x text-warning" data-toggle="tooltip" title="<?= $this->translate('Waiting for confirmation') ?>" Style="padding-right: 20px"></span>
+                        <?php endif; ?>
+                        <?php
+                           $uid = $this->encrypt($user->getId(), SECRET_KEY);
+                           $encrypt = str_replace('+', '%20', $uid);
+                        if ($this->layout()->acl->isAllowed($currentrole, 'fluxuser/edit')) { ?>
+                            <a class="linkbar fa fa-edit fa-2x" href="/fluxuser/edit/<?=$encrypt?>" data-toggle="tooltip" title="<?= $this->translate("Edit user"); ?>" ></a>
+                            <?php }
+                        ?>
+
+                        <!-- Delete/deactive button -->
+                        <?php if ($this->layout()->acl->isAllowed($currentrole, 'fluxuser/ajaxconfirmdelete')) { ?>
+        <?php if ($user->getFkuserrole()->getId() == 2 || $user->getFkuserrole()->getId() == 4) { ?>
+                                <a id="deleteButton" class="fa fa-trash-o fa-2x deleteUserButton" href="" 		
+                                   data-userid="<?php echo $user->getId(); ?>" 		
+                                   data-username="<?php echo $user->getUsername(); ?>" 	 
+                                   data-toggle="tooltip" title="<?= $this->translate("Delete user"); ?>">
+                                </a>
+            <?php }
+    }
+    ?>                        
+                    </td>
+                </tr>
+<?php endforeach; ?>
+        </tbody>
+    </table>
+</div>
+
+

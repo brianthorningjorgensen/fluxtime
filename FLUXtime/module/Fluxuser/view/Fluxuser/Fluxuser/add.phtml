@@ -1,0 +1,90 @@
+<?php
+$this->headScript()->appendFile('/js/module/fluxuser/add_edit_fluxuser.js');
+$title = $this->translate('Create new user');
+$this->headTitle($title);
+?>
+
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h1 class="modal-title"><?php echo $this->translate('Fetch Pivotal Tracker API Token'); ?></h1>
+            </div>
+            <div class="modal-body">
+                <p id="deleteuserid" hidden="true"></p>
+                <p><?php echo $this->translate('Insert Pivotal Tracker Username and Password.') ?></p>
+                <p id="info"></p>
+                <p>Username:</p>
+                <input type="text" name="username" class="user">
+                <p>Password:</p>
+                <input type="password" name="password" class="pass">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal"><?php echo $this->translate('Close'); ?></button>
+                <button type="button" id="confirmButton" class="btn btn-primary">
+                    <?php echo $this->translate('Fetch'); ?>
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<div id="contentpageheader">
+    <span class="headerlogo fa fa-users fa-3x"></span>
+    <h1 class="text-center h1text"><?php echo$this->escapeHtml($title) ?></h1>                
+</div>
+
+<?php
+$form->prepare();
+
+echo $this->form()->openTag($form);
+echo $this->formHidden($form->get('id'));
+?>
+
+<div id="error-div" class="alert label-danger hidden" role="alert">
+    <?php foreach ($this->messages as $message) : ?>
+        <?php if (is_string($message)) : ?>
+            <strong class="white-text"><?php echo $message ?></strong>
+        <?php endif; ?>
+    <?php endforeach; ?>
+    <?php foreach ($form as $element) : ?>
+        <?php if (!empty($this->formElementErrors($element))) : ?>
+            <label class="control-label white-text"><?php echo $this->translate($element->getLabel()) ?></label>
+            <strong class="white-text"><?php echo $this->formElementErrors($element) ?></strong>
+        <?php endif; ?>
+    <?php endforeach; ?>
+</div>
+
+<div class="container form-group">
+    <?php foreach ($form as $element) : ?>
+        <?php if ($element->getName() != 'submit' && $element->getName() != 'id') : ?>
+            <?php $element->setAttribute('class', 'form-control'); ?>
+            <div class="control-group  form-group">
+                <label class="control-label"><?php echo $this->translate($element->getLabel()) ?></label>
+                <div class="controls">
+                    <?php echo $this->formElement($element); ?>
+                </div>
+            </div>
+        <?php endif; ?>
+    <?php endforeach; ?>
+
+    <label class="control-label"><?php echo $form->get('id')->getLabel() ?></label>
+    <div class="controls">
+        <?php
+        echo $this->formElement($form->get('id'));
+        if ($this->formElementErrors($form->get('id'))) : endif;
+        ?>
+        <span class="help-inline"><?php echo $this->formElementErrors($form->get('id')) ?></span>
+    </div>
+    <div class = "form-submit-button">
+        <?php echo $this->formRow($form->get('submit'));
+        ?>
+    </div>
+</div>
+
+<?php
+if($form->get('pivotaltrackerapi')->getValue() === NULL){
+    ?> <a href="" class="fetchToken"><?= $this->translate('Insert Pivotal Tracker API Token'); ?></a> <?php
+}
+echo $this->form()->closeTag();

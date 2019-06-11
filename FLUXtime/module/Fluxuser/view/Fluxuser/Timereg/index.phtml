@@ -1,0 +1,177 @@
+<?php
+//Append js-fil
+//Append tablesorter til tabel 
+$this->headScript()->appendFile('../js/jquery.datetimepicker.js');
+$this->headScript()->appendFile('../js/jquery.tablesorter.min.js');
+$this->headScript()->appendFile('../js/module/timereg/index.js');
+
+//For at køre js fra view
+$this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))->prependStylesheet('../js/jquery.datetimepicker.css');
+$this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))->prependStylesheet('../css/jquery-ui.min.css');
+$this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))->prependStylesheet('../css/timereg/timeregcustom.css');
+
+?>
+
+<?php
+$currentrole = $this->identity()!=null ? $this->identity()->getFkuserrole()->getPermissiongroup() : 'guest';
+$title = $this->translate('Log');
+$this->headTitle($title);
+?>
+
+<!-- Render form-->
+<div id="contentpageheader">
+    <div id="searchdiv" class="row timeregsearch">
+        <?php    
+        if ($this->form != null) {
+            $form = $this->form;
+            $form->setAttribute('class', 'pull-right');
+            echo $this->form()->render($form);
+        }  
+        ?>    
+        <a class=" pull-right linkbarSearch fa fa-plus-circle fa-2x" href="<?php echo $this->url('timereg', array('action' => 'add')); ?>" data-toggle="tooltip" title="<?= $this->translate("Create new time registretion"); ?>">
+        </a>
+        
+        
+        <span class="headerlogo fa fa-book fa-3x"></span>
+        <h1 ><?php echo $this->escapeHtml($title); ?></h1>   
+    </div>
+</div>
+
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" >   <?= $this->translate('Please confirm delete'); ?></h4>
+            </div>
+            <div class="modal-body">
+                   <p > <?= $this->translate('You are about to delete the timereg:'); ?></p>
+              
+                <p id="deletetext"></p>
+                  <p > <?= $this->translate('Confirm delete time registration?'); ?></p>
+                <p id="timeregIdDelete" hidden="true"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">   <?= $this->translate('Close'); ?></button>
+                <button type="button" id="confirmDeleteButton" class="btn btn-success">
+                    <?= $this->translate('Delete time registration'); ?>
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<!-- Tabel - liste af projekter med tilhørende task-->
+<div class="table-responsive">
+    
+    <table id="timeregList" class="tablesorter table table-hover table-striped" >
+        <!-- Table header-->
+        <thead>
+            <tr>
+                <th hidden="true"><?= $this->translate("id"); ?></th>
+                <th><?= $this->translate("task name"); ?></th>
+                <th><?= $this->translate("start"); ?></th>                
+                <th><?= $this->translate("stop"); ?></th>
+                <th><?= $this->translate("project"); ?></th>
+                <th><?= $this->translate("label"); ?></th>
+                <th><?= $this->translate("time"); ?></th>                                
+                <th><?= $this->translate("user"); ?></th>                
+                <th><?= $this->translate("Actions"); ?></th>                
+            </tr>
+        </thead>
+
+        <tbody>
+            <!-- For hvert task-->
+            <?php 
+            $lastprojectname = '';
+            if ( isset($timeregs) ) {
+                foreach ($timeregs as $timereg){                     
+                    $start = new DateTime();
+                    $start->setTimestamp($timereg->getTimestart()->getTimestamp());
+                    if ($timereg->getTimestop() != null ) {
+                        $stop = new DateTime();
+                        $stop ->setTimestamp($timereg->getTimestop()->getTimestamp());
+                        $stopstring = $stop->format('d-m-Y H:i (s)');
+                        $timediff = $stop->getTimestamp() - $start->getTimestamp();
+                        $diff = floor($timediff / 3600) . ':' . floor(($timediff / 60) % 60) . ':' . $timediff % 60;
+                    } else {
+                        $stopstring = '<span class="btn-warning">&nbsp;&nbsp;' .  $this->translate( 'Running' ) . '&nbsp;&nbsp;</span>';
+                        $diff = '-';
+                    }  
+                    $tasklabel = "<td></td>";
+                     if($timereg->getFktaskownerid()->getFktaskid()->getFklabelid() != null){
+                        $tasklabel = '<td>' . $this->escapeHtml($timereg->getFktaskownerid()->getFktaskid()->getFklabelid()->getLabelname()).'</td>'  ;
+                     }
+
+                    echo '<tr>
+                        <td>' . $this->escapeHtml($timereg->getFktaskownerid()->getFktaskid()->getTaskname()) . '</td>
+                        <td id="start' . $timereg->getTimeregid() . '">' . $this->escapeHtml( $start->format('d-m-Y H:i (s)') ) . '</td>
+                        <td id="stop' . $timereg->getTimeregid() . '">' . $stopstring . '</td>
+                        <td>' . $this->escapeHtml($timereg->getFktaskownerid()->getFktaskid()->getFkprojectid()->getProjectname()) . '</td>'.
+                       $tasklabel                        
+                        .'<td id="duration">' . $diff. '</td>
+                        <td id="owner">' . $timereg->getFktaskownerid()->getFkuserid()->getUsername() . '</td>
+                        <td style="width: 100px">
+                            <a id="' . $timereg->getTimeregid() . '" class="fa fa-edit fa-2x" Style="padding-right: 20px" href="#" data-id="editTimereg" data-toggle="modal" data-target="#editModal" data-tooltip="tooltip" title="' . $this->translate("Edit time registration") . '">
+                            </a>';
+                             $stop='';
+                             if ($timereg!=null ) {                                 
+                                 if ($timereg->getTimestop()!=null) {
+                                    $stop = $timereg->getTimestop()->format("Y-m-d H:i");                                     
+                                 } 
+                                echo '<a id="' . $timereg->getTimeregid() . '" class="fa fa-trash-o fa-2x deleteTimereg" data-name="' .  $timereg->getTimestart()->format("Y-m-d H:i") . '-' .  $stop  .  '"  data-toggle="tooltip" title="' . $this->translate("Delete time registration") . '">';                                                              
+                             }
+
+                            echo '
+                            </a>
+                        </td>
+                    </tr>';
+                }                  
+            }
+         
+            ?>
+        </tbody>        
+    </table>
+    
+</div>
+
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="#modal-title-edit" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 id="modal-title-edit" class="modal-title" >   <?= $this->translate('Edit time registration'); ?></h4>
+            </div>
+            <form id="timeregform" method="POST" name="timeregform" class="form" novalidate=novalidate"">
+                <div class="modal-body">
+                    <div id="error-div" class="alert label-danger hidden" role="alert">
+                    </div>
+                    <div class="form-group">
+                        <div class="control-group form-group hidden">
+                            <label class="control-label hidden">id</label>
+                            <div class="controls hidden">
+                                <input type="text" name="id" id="timeregId" class="form-control valid hidden" value="" aria-required="true" aria-invalid="false">
+                            </div>
+                        </div>
+                        <div class="control-group form-group">
+                            <label class="control-label"><?= $this->translate('From date'); ?></label>
+                            <div class="controls">
+                                <input type="text" name="from" id="from" class="form-control valid" value="" aria-required="true" aria-invalid="false">
+                            </div>
+                        </div>
+                        <div class="control-group form-group">
+                            <label class="control-label"><?= $this->translate('To date'); ?></label>
+                            <div class="controls">
+                                <input type="text" name="to" id="to" class="form-control valid" value="" aria-required="true" aria-invalid="false">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" name="submit" id="submitbutton" class="btn btn-success" value="Save time registration">
+                </div>
+            </form>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

@@ -1,0 +1,71 @@
+<?php
+//Append js-fil
+ $this->headScript()->prependFile($this->basePath() . '/js/module/client/add.js');
+ $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))->prependStylesheet($this->basePath() . '/css/project/projectcustom.css');
+
+?>
+
+<?php
+//Page title
+$title = $this->translate('Create new client');
+$this->headTitle($title);
+?>
+<!--Heading-->
+<div id="contentpageheader">
+
+    <h1>
+        <span class="headerlogo fa fa-folder"></span>
+        <span class="h1text"> <?= $this->escapeHtml($title) ?> <span>                
+    </h1>
+</div>  
+
+
+<div id="projectadd">
+    <!--Form-->
+    <!--New adresse/url-->  
+    <?php
+        $form->setAttribute('action', $this->url('client', array('action' => 'add')));
+        $form->prepare();
+
+        //Form content
+        echo $this->form()->openTag($form);
+        echo $this->formHidden($form->get('clientid'));
+    ?>
+    
+    <div id="error-div" class="alert label-danger hidden" role="alert">
+        <?php foreach ($this->messages as $message) : ?>
+            <?php if (is_string($message)) : ?>
+                <strong class="white-text"><?php echo $message ?></strong>
+            <?php endif; ?>
+        <?php endforeach; ?>
+        <?php foreach ($form as $element) : ?>
+            <?php if (!empty($this->formElementErrors($element))) : ?>
+                <label class="control-label white-text"><?php echo $this->translate($element->getLabel()) ?></label>
+                <strong class="white-text"><?php echo $this->formElementErrors($element) ?></strong>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    </div>
+
+    <div class="container form-group">
+        <?php foreach ($form as $element) : ?>
+            <?php if ($element->getName() != 'submit' && $element->getName() != 'clientid') : ?>
+            <?php $element->setAttribute('class', 'form-control'); ?>
+                <div class="control-group form-group">
+                    <label class="control-label"><?php echo $this->translate($element->getLabel()) ?></label>
+                    <div class="controls">
+                        <?php echo $this->formElement($element); ?>
+                    </div>
+
+                </div>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    </div>
+</div>
+<br />
+<div class="container <?php echo $form->get('submit')->getName(); ?>">
+    <?php echo $this->formRow($form->get('submit')); ?>
+</div>
+
+
+
+   

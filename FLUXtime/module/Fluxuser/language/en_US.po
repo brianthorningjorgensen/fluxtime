@@ -1,0 +1,881 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: FLUXtime\n"
+"POT-Creation-Date: 2014-12-11 14:23+0100\n"
+"PO-Revision-Date: 2015-01-12 21:06+0100\n"
+"Last-Translator: \n"
+"Language-Team: BadBoys\n"
+"Language: da_DK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7.3\n"
+"X-Poedit-Basepath: C:\\xampp\\htdocs\\FLUXtime\\module\\fluxuser\\\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: translate\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: view/Fluxuser/Fluxuser/add.phtml:3 view/Fluxuser/Fluxuser/writecsv.phtml:3
+msgid "Create new user"
+msgstr ""
+
+#: view/Fluxuser/Fluxuser/confirmresetpassword.phtml:4
+msgid "Confirm password change"
+msgstr ""
+
+#: view/Fluxuser/Fluxuser/confirmuser.phtml:3
+msgid "Confirm user"
+msgstr ""
+
+#: view/Fluxuser/Fluxuser/edit.phtml:3
+msgid "User"
+msgstr ""
+
+#: view/Fluxuser/Fluxuser/index.phtml:10
+msgid "Users"
+msgstr ""
+
+#: view/Fluxuser/Fluxuser/index.phtml:19 view/Fluxuser/Fluxuser/index.phtml:30
+msgid "Delete user"
+msgstr ""
+
+#: view/Fluxuser/Fluxuser/index.phtml:23
+msgid "You are about to delete the user:"
+msgstr ""
+
+#: view/Fluxuser/Fluxuser/index.phtml:25
+msgid "Do you want to do this?"
+msgstr ""
+
+#: view/Fluxuser/Fluxuser/index.phtml:28 view/Fluxuser/Project/edit.phtml:97
+#: view/Fluxuser/Project/edit.phtml:137 view/Fluxuser/Project/edit.phtml:272
+#: view/Fluxuser/Project/edit.phtml:300 view/Fluxuser/Project/index.phtml:29
+msgid "Close"
+msgstr ""
+
+#: view/Fluxuser/Fluxuser/index.phtml:45 view/Fluxuser/Project/index.phtml:47
+msgid "Form do not exist"
+msgstr ""
+
+#: view/Fluxuser/Fluxuser/index.phtml:51
+msgid "Create a new user"
+msgstr ""
+
+#: view/Fluxuser/Fluxuser/index.phtml:66
+msgid "Id"
+msgstr ""
+
+#: view/Fluxuser/Fluxuser/index.phtml:68
+msgid "First name"
+msgstr ""
+
+msgid "first name"
+msgstr ""
+
+#: view/Fluxuser/Fluxuser/index.phtml:69
+msgid "Last name"
+msgstr ""
+
+msgid "last name"
+msgstr ""
+
+#: view/Fluxuser/Fluxuser/index.phtml:70
+msgid "Username"
+msgstr ""
+
+#: view/Fluxuser/Fluxuser/index.phtml:71
+msgid "Permissions"
+msgstr ""
+
+#: view/Fluxuser/Fluxuser/index.phtml:72
+msgid "Actions"
+msgstr ""
+
+#: view/Fluxuser/Fluxuser/index.phtml:91
+msgid "Edit user"
+msgstr ""
+
+#: view/Fluxuser/Fluxuser/index.phtml:102
+msgid "Delete this user"
+msgstr ""
+
+#: view/Fluxuser/Fluxuser/index.phtml:108
+msgid "Confirmed"
+msgstr ""
+
+#: view/Fluxuser/Fluxuser/index.phtml:110
+msgid "Waiting for confirmation"
+msgstr ""
+
+#: view/Fluxuser/Fluxuser/login.phtml:3
+msgid "User Authentication"
+msgstr ""
+
+#: view/Fluxuser/Fluxuser/profile.phtml:3
+msgid "Edit profile"
+msgstr ""
+
+#: view/Fluxuser/Fluxuser/resetpassword.phtml:3
+msgid "Reset password"
+msgstr ""
+
+#: view/Fluxuser/Fluxuser/welcome.phtml:3
+msgid "Welcome "
+msgstr ""
+
+#: view/Fluxuser/Project/edit.phtml:86 view/Fluxuser/Project/index.phtml:22
+msgid "Please confirm delete"
+msgstr ""
+
+#: view/Fluxuser/Project/edit.phtml:91
+msgid "Confirm delete label?"
+msgstr ""
+
+#: view/Fluxuser/Project/edit.phtml:100
+msgid "Delete label"
+msgstr ""
+
+#: view/Fluxuser/Project/edit.phtml:115
+msgid "Label"
+msgstr ""
+
+#: view/Fluxuser/Project/edit.phtml:139 view/Fluxuser/Project/edit.phtml:141
+msgid "Save label"
+msgstr ""
+
+#: view/Fluxuser/Project/edit.phtml:155 view/Fluxuser/Project/index.phtml:69
+#: view/Fluxuser/Project/index.phtml:74
+msgid "id"
+msgstr ""
+
+#: view/Fluxuser/Project/edit.phtml:156
+msgid "projectid"
+msgstr ""
+
+#: view/Fluxuser/Project/edit.phtml:157
+msgid "label"
+msgstr ""
+
+#: view/Fluxuser/Project/edit.phtml:159 view/Fluxuser/Project/edit.phtml:207
+#: view/Fluxuser/Project/index.phtml:75
+msgid "actions"
+msgstr ""
+
+#: view/Fluxuser/Project/edit.phtml:204
+msgid "projectuserid"
+msgstr ""
+
+#: view/Fluxuser/Project/edit.phtml:205
+msgid "Project member - username"
+msgstr ""
+
+#: view/Fluxuser/Project/edit.phtml:251
+msgid "Add project member"
+msgstr ""
+
+#: view/Fluxuser/Project/edit.phtml:275
+msgid "Add member"
+msgstr ""
+
+#: view/Fluxuser/Project/edit.phtml:289
+msgid "Please confirm remove"
+msgstr ""
+
+#: view/Fluxuser/Project/edit.phtml:294
+msgid "Confirm remove user from project?"
+msgstr ""
+
+#: view/Fluxuser/Project/edit.phtml:303
+msgid "Remove user"
+msgstr ""
+
+#: view/Fluxuser/Project/index.phtml:12
+msgid "Projects"
+msgstr ""
+
+#: view/Fluxuser/Project/index.phtml:25
+msgid "Confirm delete project?"
+msgstr ""
+
+#: view/Fluxuser/Project/index.phtml:31 view/Fluxuser/Project/index.phtml:109
+msgid "Delete project"
+msgstr ""
+
+#: view/Fluxuser/Project/index.phtml:53
+msgid "Create new project"
+msgstr ""
+
+#: view/Fluxuser/Project/index.phtml:70
+msgid "project"
+msgstr ""
+
+#: view/Fluxuser/Project/index.phtml:71
+msgid "date"
+msgstr ""
+
+#: view/Fluxuser/Project/index.phtml:72
+msgid "Project manager"
+msgstr ""
+
+#: view/Fluxuser/Project/index.phtml:73
+msgid "client"
+msgstr ""
+
+#: view/Fluxuser/Project/index.phtml:102
+msgid "Edit project and manage members, contacts and labels"
+msgstr ""
+
+#: view/Fluxuser/email/resetemail.phtml:2
+msgid "FluxTime: Lost Password"
+msgstr ""
+
+#: view/Fluxuser/email/resetemail.phtml:5
+msgid "You want your password to be reset in FluxTime"
+msgstr ""
+
+#: view/Fluxuser/email/resetemail.phtml:6
+msgid "Username:"
+msgstr ""
+
+#: view/Fluxuser/email/resetemail.phtml:7
+msgid "Please follow this link"
+msgstr ""
+
+#: view/Fluxuser/email/resetemail.phtml:9
+msgid "Change password"
+msgstr ""
+
+#: view/Fluxuser/email/welcomemail.phtml:2
+msgid "Welcome to FluxTime"
+msgstr ""
+
+#: view/Fluxuser/email/welcomemail.phtml:5
+msgid " have been created as a user in FluxTime"
+msgstr ""
+
+#: view/Fluxuser/email/welcomemail.phtml:6
+msgid "Username: "
+msgstr ""
+
+#: view/Fluxuser/email/welcomemail.phtml:7
+msgid "Password: "
+msgstr ""
+
+#: view/Fluxuser/email/welcomemail.phtml:8
+msgid "Please accept your account by following link"
+msgstr ""
+
+#: view/Fluxuser/error/404.phtml:9
+msgid "This page is missing"
+msgstr ""
+
+#: view/Fluxuser/error/404.phtml:13
+msgid "The page that you are looking for may have moved or never existed."
+msgstr ""
+
+#: view/Fluxuser/error/404.phtml:14 view/Fluxuser/error/index.phtml:14
+msgid "Check your browser's address bar and see if you got the URI correct."
+msgstr ""
+
+#: view/Fluxuser/error/404.phtml:20 view/Fluxuser/error/index.phtml:20
+msgid "More information"
+msgstr ""
+
+#: view/Fluxuser/error/404.phtml:29
+msgid "The requested controller was unable to dispatch the request."
+msgstr ""
+
+#: view/Fluxuser/error/404.phtml:32
+msgid "The requested controller could not be mapped to an existing controller class."
+msgstr ""
+
+#: view/Fluxuser/error/404.phtml:35
+msgid "The requested controller was not dispatchable."
+msgstr ""
+
+#: view/Fluxuser/error/404.phtml:38
+msgid "The requested URL could not be matched by routing."
+msgstr ""
+
+#: view/Fluxuser/error/404.phtml:41
+msgid "We cannot determine at this time why a 404 was generated."
+msgstr ""
+
+#: view/Fluxuser/error/404.phtml:53
+msgid "Controller"
+msgstr ""
+
+#: view/Fluxuser/error/404.phtml:60
+#, php-format
+msgid "Resolves to %s"
+msgstr ""
+
+#: view/Fluxuser/error/404.phtml:72 view/Fluxuser/error/index.phtml:29
+msgid "Additional information"
+msgstr ""
+
+#: view/Fluxuser/error/404.phtml:75 view/Fluxuser/error/404.phtml:99
+#: view/Fluxuser/error/index.phtml:32 view/Fluxuser/error/index.phtml:56
+msgid "File"
+msgstr ""
+
+#: view/Fluxuser/error/404.phtml:79 view/Fluxuser/error/404.phtml:103
+#: view/Fluxuser/error/index.phtml:36 view/Fluxuser/error/index.phtml:60
+msgid "Message"
+msgstr ""
+
+#: view/Fluxuser/error/404.phtml:83 view/Fluxuser/error/404.phtml:107
+#: view/Fluxuser/error/index.phtml:40 view/Fluxuser/error/index.phtml:64
+msgid "Stack trace"
+msgstr ""
+
+#: view/Fluxuser/error/404.phtml:93 view/Fluxuser/error/index.phtml:50
+msgid "Previous exceptions"
+msgstr ""
+
+#: view/Fluxuser/error/404.phtml:122 view/Fluxuser/error/index.phtml:79
+msgid "No Exception available"
+msgstr ""
+
+#: view/Fluxuser/error/index.phtml:10
+msgid "An error occurred"
+msgstr ""
+
+#: view/Fluxuser/error/index.phtml:13
+msgid "There happend an Error in the page."
+msgstr ""
+
+#: view/Fluxuser/layout/menu.phtml:48
+msgid "USERS"
+msgstr ""
+
+#: view/Fluxuser/layout/menu.phtml:48
+msgid "CLIENTS"
+msgstr ""
+
+#: view/Fluxuser/layout/menu.phtml:48
+msgid "REPORTS"
+msgstr ""
+
+#: view/Fluxuser/layout/menu.phtml:48
+msgid "LOG"
+msgstr ""
+
+#: view/Fluxuser/layout/menu.phtml:48
+msgid "MY LOG"
+msgstr ""
+
+#: view/Fluxuser/layout/menu.phtml:48
+msgid "PROJECTS"
+msgstr ""
+
+#: view/Fluxuser/layout/menu.phtml:48
+msgid "MY TASKS"
+msgstr ""
+
+#: view/Fluxuser/layout/menu.phtml:48
+msgid "PROFILE"
+msgstr ""
+
+#: view/Fluxuser/layout/menu.phtml:48
+msgid "LOGIN"
+msgstr ""
+
+#: view/Fluxuser/layout/menu.phtml:48
+msgid "LOGOUT"
+msgstr ""
+
+#: view/Fluxuser/Fluxuser/add.phtml:24
+msgid "Employee ID"
+msgstr ""
+
+#: view/Fluxuser/Fluxuser/add.phtml:24
+msgid "Username*"
+msgstr ""
+
+#: view/Fluxuser/Fluxuser/add.phtml:24
+msgid "Password*"
+msgstr ""
+
+#: view/Fluxuser/Fluxuser/add.phtml:24
+msgid "First name*"
+msgstr ""
+
+#: view/Fluxuser/Fluxuser/add.phtml:24
+msgid "Last name*"
+msgstr ""
+
+#: view/Fluxuser/Fluxuser/add.phtml:24
+msgid "Email*"
+msgstr ""
+
+#: view/Fluxuser/Fluxuser/add.phtml:24
+msgid "Phone"
+msgstr ""
+
+#: view/Fluxuser/Fluxuser/add.phtml:24
+msgid "Street"
+msgstr ""
+
+#: view/Fluxuser/Fluxuser/add.phtml:24
+msgid "House Number"
+msgstr ""
+
+#: view/Fluxuser/Fluxuser/add.phtml:24
+msgid "City"
+msgstr ""
+
+#: view/Fluxuser/Fluxuser/add.phtml:24
+msgid "Zip Code"
+msgstr ""
+
+#: view/Fluxuser/Fluxuser/add.phtml:24
+msgid "Country"
+msgstr ""
+
+#: view/Fluxuser/Fluxuser/add.phtml:24
+msgid "Private email"
+msgstr ""
+
+#: view/Fluxuser/Fluxuser/add.phtml:24
+msgid "Private phone"
+msgstr ""
+
+#: view/Fluxuser/Fluxuser/add.phtml:24
+msgid "Permissions*"
+msgstr ""
+
+#: view/Fluxuser/Fluxuser/add.phtml:42 view/Fluxuser/Fluxuser/profile.phtml:42
+msgid "Save user"
+msgstr ""
+
+#: view/Fluxuser/Fluxuser/login.phtml:75
+msgid "Login"
+msgstr ""
+
+#: view/Fluxuser/Fluxuser/profile.phtml:32
+msgid "New password"
+msgstr ""
+
+msgid "Save profile"
+msgstr ""
+
+msgid "Sign in with Google"
+msgstr ""
+
+msgid "My current tasks"
+msgstr ""
+
+msgid "task name"
+msgstr ""
+
+msgid "project name"
+msgstr ""
+
+msgid "type"
+msgstr ""
+
+msgid "status"
+msgstr ""
+
+msgid "running-/total time"
+msgstr ""
+
+msgid "import id"
+msgstr ""
+
+msgid "Project name*"
+msgstr ""
+
+msgid "Active"
+msgstr ""
+
+msgid "Import id*"
+msgstr ""
+
+msgid "Save project"
+msgstr ""
+
+msgid "Clients"
+msgstr ""
+
+msgid "client id"
+msgstr ""
+
+msgid "phone"
+msgstr ""
+
+msgid "email"
+msgstr ""
+
+msgid "Create new client"
+msgstr ""
+
+msgid "Client id"
+msgstr ""
+
+msgid "House number"
+msgstr ""
+
+msgid "Zip code"
+msgstr ""
+
+msgid "Email"
+msgstr ""
+
+msgid "Save client"
+msgstr ""
+
+msgid "Edit client and manage client contacts"
+msgstr ""
+
+msgid "Delete client"
+msgstr ""
+
+msgid "You are about to delete the client:"
+msgstr ""
+
+msgid "Confirm delete client"
+msgstr ""
+
+msgid "Alert"
+msgstr ""
+
+msgid "Sorry, the client cannot be deleted (added to system account or project)"
+msgstr ""
+
+msgid "OK"
+msgstr ""
+
+msgid "Client*"
+msgstr ""
+
+msgid "Edit client"
+msgstr ""
+
+msgid "description"
+msgstr ""
+
+msgid "Edit label"
+msgstr ""
+
+msgid "You are about to delete the project:"
+msgstr ""
+
+msgid "Edit project and manage member, contacts and labels"
+msgstr ""
+
+msgid "Show all project tasks"
+msgstr ""
+
+msgid "Project tasks"
+msgstr ""
+
+msgid "task"
+msgstr ""
+
+msgid "creator"
+msgstr ""
+
+msgid "Task*"
+msgstr ""
+
+msgid "Points"
+msgstr ""
+
+msgid "Description"
+msgstr ""
+
+msgid "Task type"
+msgstr ""
+
+msgid "Save task"
+msgstr ""
+
+msgid "Return to tasks"
+msgstr ""
+
+msgid "Create new task"
+msgstr ""
+
+msgid "Pivotal Tracker API Token"
+msgstr ""
+
+msgid "Insert Pivotal Tracker API Token"
+msgstr ""
+
+msgid "Delete Pivotal Tracker API Token"
+msgstr ""
+
+msgid "Fetch Pivotal Tracker API Token"
+msgstr ""
+
+msgid "Insert Pivotal Tracker Username and Password."
+msgstr ""
+
+msgid "Password:"
+msgstr ""
+
+msgid "Fetch"
+msgstr ""
+
+msgid "Initial password*"
+msgstr ""
+
+msgid "New password*"
+msgstr ""
+
+msgid "Confirm new password*"
+msgstr ""
+
+msgid "Confirm"
+msgstr ""
+
+msgid "If deleted, the user cannot login."
+msgstr ""
+
+msgid "Please note that the user will not be removed from tasks or projects, but cannot access the system."
+msgstr ""
+
+msgid "Confirm delete user?"
+msgstr ""
+
+msgid "Confirm delete client?"
+msgstr ""
+
+msgid "Client"
+msgstr ""
+
+msgid "Project"
+msgstr ""
+
+msgid "This project is imported from an external system. Labels created in FLUXtime are not be visible in external system."
+msgstr ""
+
+msgid "You can add new labels, but imported labels cannot be edited or removed in FLUXtime. You cannot add or remove project members in FLUXtime."
+msgstr ""
+
+msgid "Create new contact"
+msgstr ""
+
+msgid "Create new label"
+msgstr ""
+
+msgid "Add client contact"
+msgstr ""
+
+msgid "View tasks"
+msgstr ""
+
+msgid "You are about to delete the label:"
+msgstr ""
+
+msgid "Client contactname"
+msgstr ""
+
+msgid "User*"
+msgstr ""
+
+msgid "Remove member"
+msgstr ""
+
+msgid "Remove contact"
+msgstr ""
+
+msgid "Add contact"
+msgstr ""
+
+msgid "Remove project member"
+msgstr ""
+
+msgid "You are about to remove the project member:"
+msgstr ""
+
+msgid "The user will be removed as owner from alle project tasks."
+msgstr ""
+
+msgid "Confirm remove project member?"
+msgstr ""
+
+msgid "Remove project contact"
+msgstr ""
+
+msgid "You are about to remove the project contact:"
+msgstr ""
+
+msgid "The contact will be remove from project."
+msgstr ""
+
+msgid "Confirm remove project contact?"
+msgstr ""
+
+msgid "Client contact*"
+msgstr ""
+
+msgid "Edit task and manage task owners"
+msgstr ""
+
+msgid "Delete task"
+msgstr ""
+
+msgid "Sorry, the task cannot be deleted (timeregistrations added)"
+msgstr ""
+
+msgid "You are about to delete the task:"
+msgstr ""
+
+msgid "Confirm delete task?"
+msgstr ""
+
+msgid "This task is not visible in any external systems (created in FLUXtime)"
+msgstr ""
+
+msgid "This task cannot be edited - imported from an external system"
+msgstr ""
+
+msgid "Add task owner"
+msgstr ""
+
+msgid "Creator"
+msgstr ""
+
+msgid "Task owners - Username"
+msgstr ""
+
+msgid "Add new task owner"
+msgstr ""
+
+msgid "Remove task owner"
+msgstr ""
+
+msgid "You are about to remove the task owner:"
+msgstr ""
+
+msgid "Confirm remove task owner?"
+msgstr ""
+
+msgid "Start the task"
+msgstr ""
+
+msgid "Finish"
+msgstr ""
+
+msgid "My Log"
+msgstr ""
+
+msgid "time"
+msgstr ""
+
+msgid "user"
+msgstr ""
+
+msgid "Edit time registration"
+msgstr ""
+
+msgid "Delete time registration"
+msgstr ""
+
+msgid "You are about to delete the timereg:"
+msgstr ""
+
+msgid "Confirm delete time registration?"
+msgstr ""
+
+msgid "Create new time registration"
+msgstr ""
+
+msgid "From*"
+msgstr ""
+
+msgid "To*"
+msgstr ""
+
+msgid "From date"
+msgstr ""
+
+msgid "To date"
+msgstr ""
+
+msgid "Save time registration"
+msgstr ""
+
+msgid "Reports - overview"
+msgstr ""
+
+msgid "CLIENT REPORT"
+msgstr ""
+
+msgid "PROJECT REPORT"
+msgstr ""
+
+msgid "USER REPORT"
+msgstr ""
+
+msgid "Create a new clientreport"
+msgstr ""
+
+msgid "Create a new projectreport"
+msgstr ""
+
+msgid "Create a new userreport"
+msgstr ""
+
+msgid "Clientreport"
+msgstr ""
+
+msgid "Back to reports"
+msgstr ""
+
+msgid "Please choose clients"
+msgstr ""
+
+msgid "ALL"
+msgstr ""
+
+msgid "Return to reports"
+msgstr ""
+
+msgid "taskid"
+msgstr ""
+
+msgid "taskname"
+msgstr ""
+
+msgid "duration"
+msgstr ""
+
+msgid "Owner"
+msgstr ""
+
+msgid "Create Report"
+msgstr ""
+
+msgid "Create cvs-report"
+msgstr ""
+
+msgid "Limit choices*"
+msgstr ""
+
+msgid "Year*"
+msgstr ""
+
+msgid "Quater*"
+msgstr ""
+
+msgid "Month*"
+msgstr ""
+
+msgid "Week*"
+msgstr ""
+
+msgid "PROJECTLABELS"
+msgstr ""
+
+msgid "Back"
+msgstr ""
+
+msgid "Userreport"
+msgstr ""
+
+msgid "Stop the task"
+msgstr ""

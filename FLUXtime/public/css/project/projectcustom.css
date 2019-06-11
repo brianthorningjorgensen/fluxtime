@@ -1,0 +1,15 @@
+#projektedit .control-label{
+    color: black;
+}
+
+#projectadd .control-label{
+    color: black;
+}
+ 
+#project #active{
+  -ms-transform: scale(1.9); /* IE */
+    -moz-transform: scale(1.9); /* FF */
+    -webkit-transform: scale(1.9); /* Safari and Chrome */
+    -o-transform: scale(1.9); /* Opera */
+    margin-left: 15px;
+}

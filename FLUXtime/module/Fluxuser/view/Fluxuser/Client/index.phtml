@@ -1,0 +1,145 @@
+<?php
+//Append js-fil
+$this->headScript()->prependFile($this->basePath() . '/js/module/client/index.js');
+//Append tablesorter til tabel med projekter
+$this->headScript()->appendFile($this->basePath() . '/js/jquery.tablesorter.min.js');
+//For at køre js fra view
+$this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))->prependStylesheet($this->basePath() . '/css/jquery-ui.min.css');
+?>
+
+<?php
+$currentrole = $this->identity()!=null ? $this->identity()->getFkuserrole()->getPermissiongroup() : 'guest';
+$title = $this->translate('Clients');
+$this->headTitle($title);
+?>
+
+
+<!-- Render form-->
+<div id="contentpageheader">
+    <div id="searchdiv" class=" row">
+        <?php    
+        if ($this->form != null) {
+            $form = $this->form;
+            $form->setAttribute('class', 'pull-right');
+            echo $this->form()->render($form);
+        } else {
+            echo $this->translate('Form does not exist');
+        }  
+        ?>    
+         <!-- CREATE BUTTON -->
+        <?php
+        if ($this->layout()->acl-> isAllowed($currentrole, 'client/add')) {?>
+            <a class=" pull-right linkbarSearch fa fa-plus-circle fa-2x" href="<?php echo $this->url('client', array('action' => 'add')); ?>" data-toggle="tooltip" title="<?= $this->translate("Create new client"); ?>">
+            </a>
+        <?php
+        } ?>          
+
+        <span class="headerlogo fa fa-folder-open fa-3x"></span>
+        <h1 ><?php echo $this->escapeHtml($title); ?></h1>   
+    </div>
+</div>
+
+<!-- Tabel - liste af projekter-->
+<div class="table-responsive">
+<table id="clientList" class="tablesorter table table-hover table-striped" >
+    <!--            Table header-->
+    <thead>
+        <tr>
+            <th hidden="true"><?= $this->translate("id"); ?></th>
+            <th><?= $this->translate("client"); ?></th>
+            <th><?= $this->translate("client id"); ?></th>
+            <th><?= $this->translate("phone"); ?></th>
+            <th><?= $this->translate("email"); ?></th>
+            <th style="width: 150px"><?= $this->translate("actions"); ?></th>
+        </tr>
+    </thead>
+
+
+    <tbody>
+        <!-- For hvert projekt-->
+        <?php foreach ($clients as $client) : ?>
+            <tr>
+                <td hidden="true"><?php echo $this->escapeHtml($client->getClientid()); ?></td> 
+
+                <td><?php echo $this->escapeHtml($client->getClientname()); ?></td>
+                 <td><?php echo $this->escapeHtml($client->getCvrid()); ?></td>
+
+                <td><?php echo $this->escapeHtml($client->getPhone()); ?>
+
+                <td><?php echo $this->escapeHtml($client->getEmail()); ?></td>
+
+                <td style="width: 150px">                    
+                    <?php
+                    //  Edit buttons 
+                    $cid = $this->encrypt($client->getClientid(), SECRET_KEY);
+                     $encrypt = str_replace('+', '%20', $cid);
+                    if ($this->layout()->acl-> isAllowed($currentrole, 'client/edit')) {?> 
+                   
+                        <a class="fa fa-edit fa-2x" Style="padding-right: 20px" href="/client/edit/<?=$encrypt?>" data-toggle="tooltip" title="<?= $this->translate("Edit client and manage client contacts"); ?>">
+                        </a>
+                   <?php
+                    }
+                    // Delete buttons                     
+                    if ($this->layout()->acl-> isAllowed($currentrole, 'client/ajaxdelete')) {?>
+                        <a id="deleteButton" class="fa fa-trash-o fa-2x deleteClient" href="" data-clientid="<?php echo $client->getClientid(); ?>" data-clientname="<?php echo $client->getClientname(); ?>" data-toggle="tooltip" title="<?= $this->translate("Delete client"); ?>"></a> 
+                     <?php
+                    }                 
+                    ?>
+                </td>
+            </tr>
+<?php endforeach; ?>
+    </tbody>
+</table>
+</div>
+
+<!--Popup til delete confirmation-->
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">   <?= $this->translate('Delete client'); ?></h4>
+            </div>
+            <div class="modal-body">
+                <p > <?= $this->translate('You are about to delete the client:'); ?></p>
+                <p id="deletetext"></p>
+                <p id="clientIdDelete" hidden="true"></p>
+                 <p><?php echo $this->translate('Confirm delete client?'); ?></p>
+                  <p><?php echo $this->translate('Please note that the client will not be deleted from projects'); ?></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">   <?= $this->translate('Close'); ?></button>
+                <button type="button" id="confirmButton" class="btn btn-success">
+                    <?= $this->translate('Delete client'); ?>
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<!--Error delete alert-->
+<div id="myModalErrorDelete" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+         <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" >   <?= $this->translate('Alert'); ?></h4>
+            </div>
+      <!-- dialog body -->
+      <div class="modal-body">
+        <p id="errortext"> <?= $this->translate('Sorry, the client cannot be deleted (added to system account or project).'
+               ); ?></p>
+      </div>
+      <!-- dialog buttons -->
+          <div class="modal-footer">
+       <button type="button" class="btn btn-success" data-dismiss="modal">   <?= $this->translate('OK'); ?></button>
+    </div>
+       </div>
+  </div>
+</div>
+<?php ?>
+        
+
+
+

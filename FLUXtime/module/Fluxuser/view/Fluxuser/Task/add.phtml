@@ -1,0 +1,90 @@
+<?php
+//Append js-fil
+$this->headScript()->prependFile($this->basePath() . '/js/module/task/add.js');
+?>
+
+<?php
+//Page title
+$title = $this->translate('Create new task');
+$this->headTitle($title);
+?>
+<!--Heading-->
+<div id="contentpageheader">
+    <h1>
+        <span class="headerlogo fa fa-tasks"></span>
+        <span class="h1text"> <?= $title ?> <span>                
+                </h1>
+                </div>  
+                <div>
+                    <h3><?= $this->translate($project->getProjectname()); ?></h3>
+                    <?php if ($imported) { ?>
+                        <h6>This task will not be visible in external task system</h6> 
+                    <?php }
+                    ?>
+                </div>
+
+                <div id="taskadd">
+                    <!--Render form-->
+                    <?php
+                    $form->setAttribute('action', $this->url(
+                                    'task', array(
+                                'action' => 'add',
+                                'id' => $project->getProjectid(),
+                                    )
+                    ));
+                    $form->prepare();
+
+                    //Form content
+                    echo $this->form()->openTag($form);
+                   echo $this->formHidden($form->get('taskid'));
+                    ?>
+
+                    <div id="error-div" class="alert label-danger hidden" role="alert">
+                        <?php foreach ($this->messages as $message) : ?>
+                            <?php if (is_string($message)) : ?>
+                                <strong class="white-text"><?php echo $message ?></strong>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                        <?php foreach ($form as $element) : ?>
+                            <?php if (!empty($this->formElementErrors($element))) : ?>
+                                <label class="control-label white-text"><?php echo $this->translate($element->getLabel()) ?></label>
+                                <strong class="white-text"><?php echo $this->formElementErrors($element) ?></strong>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </div>
+                    
+                    <div class="container form-group">
+                        <?php foreach ($form as $element) : ?>
+                            <?php if ($element->getName() != 'submit' && $element->getName() != 'taskid') : ?>
+                                <?php $element->setAttribute('class', 'form-control'); ?>
+                                <div class="input-group form-group">
+                                    <label class="control-label"><?php echo $this->translate($element->getLabel()) ?></label>
+                                    <div class="controls">
+                                        <?php echo $this->formElement($element); ?>
+                                    </div>
+                                </div>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+                <br />
+                <div class="container <?php echo $form->get('submit')->getName(); ?>">
+                    <?php echo $this->formRow($form->get('submit')); ?>
+                    <!--Return til project tasks -->
+                    <?php
+                    $projectid = $this->encrypt($project->getProjectid(), SECRET_KEY);
+                 $encrypt = str_replace('+', '%20', $projectid);
+                    ?>
+                    <a class="btn btn-default" href="/task/index/<?=$encrypt?>"> 
+                        <?= $this->translate("Return to tasks"); ?>
+                    </a>
+                                            <!--Return til task for project siden-->
+                    <a class="btn btn-default" href="/project/edit/<?= $encrypt ?>" style="margin-left: 15px;"> 
+                        <?= $this->translate("View project"); ?>
+                    </a>
+                </div>
+
+                
+
+
+

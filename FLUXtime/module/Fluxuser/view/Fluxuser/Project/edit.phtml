@@ -1,0 +1,497 @@
+<?php
+//Append tablesorter til tabel med projekter
+$this->headScript()->appendFile($this->basePath() . '/js/jquery.tablesorter.min.js');
+$this->headScript()->appendFile($this->basePath() . '/js/module/project/edit.js');
+//For at køre js fra view
+$this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))->prependStylesheet($this->basePath() . '/css/jquery-ui.min.css');
+$this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))->prependStylesheet($this->basePath() . '/css/project/projectcustom.css');
+$currentrole = $this->identity() != null ? $this->identity()->getFkuserrole()->getPermissiongroup() : 'guest';
+$projectmanagerpermission = $this->permission != null ? true : false;
+?>
+
+<?php
+//Page title
+$title = $this->translate('Project');
+$this->headTitle($title);
+?>
+
+<!--Headline-->
+<div id="contentpageheader">
+    <h1 class="rounded-corners">
+        <span class="headerlogo fa fa-folder-open"></span>
+        <span class="h1text"> <?= $this->escapeHtml($title); ?><span>                
+                </h1>
+
+                </div>
+
+                <div>
+                    <?php if ($secondid) { ?>           
+                        <h6> <?php echo $this->translate('This project is imported from an external system. Labels created in FLUXtime are not
+                            be visible in external system.') ?> </h6> 
+                    <?php }
+                    ?>
+                    <?php if ($secondid && $projectmanagerpermission) { ?>           
+                        <h6> <?php echo $this->translate('You can add new labels, but imported labels cannot be edited or removed in FLUXtime. 
+                            You cannot add or remove project members in FLUXtime.') ?> </h6> 
+                    <?php }
+                    ?>
+                </div>
+
+                <div id="projektedit">
+                    <!--Form-->
+                    <!--New adresse/url--> 
+                    <?php
+                    $form = $this->form;
+                    $formLabel = $this->formlabel;
+                    $formMember = $this->formmember;
+                    $form->setAttribute('action', $this->url('project', array('action' => 'edit',
+                                'id' => $this->id,
+                                    )
+                    ));
+                    $form->removeAttribute('class');
+                    $form->setAttribute('class', 'form');
+                    
+                    $form->prepare();
+
+                    //Form content
+                    echo$this->form()->openTag($form);
+                    echo $this->formHidden($form->get('projectid'));
+                    ?>
+                    
+                    <div id="error-div" class="alert label-danger hidden" role="alert">
+                        <?php foreach ($this->messages as $message) : ?>
+                            <?php if (is_string($message)) : ?>
+                                <strong class="white-text"><?php echo $message ?></strong>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                        <?php foreach ($form as $element) : ?>
+                            <?php if (!empty($this->formElementErrors($element))) : ?>
+                                <label class="control-label white-text"><?php echo $this->translate($element->getLabel()) ?></label>
+                                <strong class="white-text"><?php echo $this->formElementErrors($element) ?></strong>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </div>
+
+                    <div class="form-group">
+                    <?php foreach ($form as $element) : ?>
+                            <?php if ($element->getName() != 'submit' && $element->getName() != 'projectid') : ?>
+                                <?php if ($element->getName() != 'active') : $element->setAttribute('class', 'form-control'); endif; ?>
+                                <div class="control-group form-group">
+                                    <label class="control-label"><?php echo $this->translate($element->getLabel()) ?></label>
+                                    <div class="controls">
+                                        <?php echo $this->formElement($element); ?>
+                                    </div>
+
+                                </div>
+                            <?php endif; ?>
+                        <?php endforeach; ?>
+                    </div>
+
+                    <?php if ($projectmanagerpermission) { ?>
+                        <div class="form-submit-button">
+                        <?php echo $this->formRow($form->get('submit')); ?>
+                                 <?php  $projectid = $this->encrypt($form->get('projectid')->getValue(), SECRET_KEY);
+                                $encrypt = str_replace('+', '%20', $projectid);    ?>
+                                <a class="btn btn-default" href="/task/index/<?= $encrypt ?>" style="margin-left: 15px;"> 
+                            <?= $this->translate("View tasks"); ?>
+                        </a>
+                        </div>
+                            <?php
+                            echo $this->form()->closeTag();
+                            ?>
+                    </div>
+       
+                    <?php } else {?>
+                        <?php  $projectid = $this->encrypt($form->get('projectid')->getValue(), SECRET_KEY);
+                        $encrypt = str_replace('+', '%20', $projectid);    ?>
+                        <a class="btn btn-default" href="/task/index/<?= $encrypt ?>" style="margin-left: 15px;"> 
+                            <?= $this->translate("View tasks"); ?>
+                        </a>
+    
+                    <?php } ?>
+                <!--Popup til delete label confirmation-->
+                <div class="modal fade" id="myModalDelete">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                <h4 class="modal-title">
+                                <?= $this->translate('Delete label'); ?>
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <p >
+                                    <?= $this->translate('You are about to delete the label:'); ?>
+                                </p>
+                                 <p id="deletetext"> </p>
+                                <p >
+                                    <?= $this->translate('Confirm delete label?'); ?>
+                                </p>
+                                <p id="labelIdDelete" hidden="true"></p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">
+                                    <?= $this->translate('Close'); ?>
+                                </button>
+                                <button type="button" id="confirmDeleteButton" class="btn btn-success">
+                                    <?= $this->translate('Delete label'); ?>
+                                </button>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+
+
+
+                <!--Popup til add / edit label-->
+                <div class="modal fade" id="myModalLabel">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                <h4 class="modal-title"><?= $this->translate('Label'); ?></h4>
+                            </div>
+                            <div class="modal-body">
+                                <?php
+                                $formlabel->prepare();
+                                echo $this->form()->openTag($formlabel);
+                                ?><div class="form-group">
+                                <?php foreach ($formlabel as $element) : ?>
+                                    <?php $element->setAttribute('class', 'form-control'); ?>
+                                    <label class="control-label"><?php echo $element->getLabel() ?></label>
+                                    <div  class="controls">
+                                    <?php echo $this->formElement($element); ?>
+                                        <span class="help-inline"><?php echo $this->formElementErrors($element) ?></span>
+                                    </div>
+                                <?php endforeach; ?>
+                                </div>
+                                    <?php
+                                    echo $this->form()->closeTag();
+                                    ?>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->translate('Close'); ?></button>
+                                    <button type="button" id="confirmAddButton" class="btn btn-success">
+                                    <?= $this->translate('Save label'); ?>
+                                    <button type="button" id="confirmEditButton" class="btn btn-success">
+                                    <?= $this->translate('Save label'); ?>
+                                    </button>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+
+                <br />
+
+                <!--     Tabel - liste af labels-->
+                <div class="table-responsive">
+                    <table id="labelList" class="tablesorter table table-hover table-striped" style="width: 700px; margin-left: 20px; display:inline ">
+                        <thead>
+                            <tr>
+                                <th hidden="true"><?= $this->translate("id"); ?></th>
+                                <th hidden="true"><?= $this->translate("projectid"); ?></th>
+                                <th  style="width: 185px"><?= $this->translate("label"); ?></th>
+                                 <th  style="width: 185px"><?= $this->translate("import id"); ?></th>
+
+                                <th style="width: 100px"><?= $this->translate("actions");
+                                    if ($this->layout()->acl->isAllowed($currentrole, 'label/ajaxaddlabel') && $projectmanagerpermission) {
+                                        ?>
+                                        <a id="newButton"  class="fa fa-plus-circle addLabel" style="padding-left: 20px" href="" title="<?= $this->translate('Create new label')?>">
+                                        </a> 
+                                        <?php }
+                                    ?>                  
+
+                                </th>
+                            </tr>
+                        </thead>
+
+
+                        <tbody>
+                            <!-- For hvert projekt-->
+                            <?php foreach ($labels as $label) : ?>
+                                <tr>
+                                    <td hidden="true"><?php echo $this->escapeHtml($label->getLabelid()); ?></td> 
+                                    <td hidden="true"><?php echo $this->escapeHtml($label->getFkProjectid()->getProjectid()); ?></td> 
+                                    <td><?php echo $this->escapeHtml($label->getLabelname()); ?></td>    
+                                    <td><?php echo $this->escapeHtml($label->getSecondid()); ?></td>
+                                  
+                                        <!--             Edit og delete buttons-->
+                                        <?php
+                                     $imported = $label->getSecondid();
+                                        if ($this->layout()->acl->isAllowed($currentrole, 'label/ajaxeditlabel') && $projectmanagerpermission && $imported == null) {
+                                            ?>
+                                        <td>
+                                            <a id="editButton" class="fa fa-edit fa-2x editLabel" Style="padding-right: 20px" href="" data-labelid="<?php echo $label->getLabelid(); ?>" data-labeltext="<?php echo $label->getLabelname(); ?>" title="<?= $this->translate('Edit label')?>">
+                                            </a>
+                                            <?php
+                                        }
+                                        if ($this->layout()->acl->isAllowed($currentrole, 'label/ajaxconfirmdeletelabel') && $projectmanagerpermission && $imported == null) {
+                                            ?>
+                                            <a id="deleteButton" class="fa fa-trash-o fa-2x deleteLabel" href="" data-labelname="<?php echo $label->getLabelname(); ?>" data-labelid="<?php echo $label->getLabelid(); ?>" title="<?= $this->translate('Delete label')?>">
+                                            </a> 
+                                            <?php }
+                                        ?>
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!--     Tabel - liste af members-->
+
+                <div class="table-responsive">
+                    <table id="memberList" class="tablesorter table table-hover table-striped" style="width: 700px; margin-left: 20px; display:inline ">
+                        <thead>
+                            <tr>
+                                <th hidden="true"><?= $this->translate("projectuserid"); ?></th>
+                                 <th hidden="true"><?= $this->translate("userid"); ?></th>
+                                <th ><?= $this->translate("Project member - username"); ?></th>
+
+                                <th style="width: 100px"><?= $this->translate("actions"); ?>
+                                    <?php if ($this->layout()->acl->isAllowed($currentrole, 'project/ajaxaddmember') && $projectmanagerpermission && !$secondid) { ?>
+                                        <a id="addmemberButton"  class="fa fa-plus-circle addLabel" style="padding-left: 20px" href="" title="<?= $this->translate('Add project member')?>">
+                                        </a>                     
+                                        <?php }
+                                    ?>  
+                                </th>
+                            </tr>
+                        </thead>
+
+
+                        <tbody>
+                            <!--                For hvert projekt-->
+                            <?php foreach ($members as $member) : ?>
+                                <tr>
+                                    <td hidden="true"><?php echo $this->escapeHtml($member->getProjectuserid()); ?></td> 
+                                    <td hidden="true"><?php echo $this->escapeHtml($member->getFkUserid()->getId()); ?></td> 
+                                    <td><?php echo $this->escapeHtml($member->getFkUserid()->getUsername()); ?></td> 
+                                    <td>
+                                        <!--           delete buttons-->
+                                        <?php if ($this->layout()->acl->isAllowed($currentrole, 'project/ajaxremovemember') && $projectmanagerpermission && !$secondid) { ?>
+                                        <a id="removememberButton" class="fa fa-trash-o fa-2x deleteMember" href="" data-projectuserid="<?php echo $member->getProjectuserid(); ?>" data-username="<?php echo $member->getFkUserid()->getUsername(); ?>"
+                                                   data-userid="<?php echo $member->getFkUserid()->getId(); ?>" title="<?= $this->translate('Remove member')?>">
+                                            </a> 
+                                            <?php }
+                                        ?>  
+
+
+                                    </td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+                
+                
+                <!--     Tabel - liste af client contacts -->
+
+                <div class="table-responsive">
+                    <table id="contactsList" class="tablesorter table table-hover table-striped" style="width: 700px; margin-left: 20px; display:inline ">
+                        <thead>
+                            <tr>                            
+                                <th ><?= $this->translate("Client contactname"); ?></th>
+
+                                <th style="width: 100px"><?= $this->translate("actions"); ?>
+                                        <a id="addclientButton"  class="fa fa-plus-circle addClient" style="padding-left: 20px" href="" title="<?= $this->translate('Add client contact')?>"></a>
+                                </th>
+                            </tr>
+                        </thead>
+
+
+                        <tbody>
+                            <!--  For hvert clientnavn-->
+                            <?php 
+                            if (!empty($projectcontacts)) {
+                                foreach ($projectcontacts as $projectcontact) : ?>
+                                <tr>
+                                    <td><?php echo $this->escapeHtml( $projectcontact->getFkcontactid()->getFirstname() . ' ' . $projectcontact->getFkcontactid()->getLastname() ); ?></td> 
+                                    <td>
+                                        <!--  delete button-->                                        
+                                        <a id="removeclientButton" class="fa fa-trash-o fa-2x deleteClient" href="" title="<?= $this->translate('Remove contact')?>" data-contactid="<?php echo $projectcontact->getFkcontactid()->getContactid(); ?>" data-projectcontactid="<?php echo $projectcontact->getProjectcontactid(); ?>" data-name="<?php echo $projectcontact->getFkcontactid()->getFirstname() . ' ' . $projectcontact->getFkcontactid()->getLastname(); ?>">                                        
+                                        </a>                                         
+                                    </td>
+                                </tr>
+                            <?php endforeach;
+                            }?>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- MODALS -->
+
+                <!--Popup til add project member-->
+                <div class="modal fade" id="myModalMember">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                <h4 class="modal-title"><?= $this->translate('Add project member'); ?></h4>
+                            </div>
+                            <div class="modal-body">
+                            <?php
+                            $formmember->prepare();
+                            echo $this->form()->openTag($formmember);
+                            ?><div class="form-group">
+                                <?php foreach ($formmember as $element) : ?>
+                                    <?php $element->setAttribute('class', 'form-control'); ?>
+                                    <div class="control-group form-group">
+                                        <label class="control-label"><?php echo $element->getLabel() ?></label>
+                                        <div  class="controls">
+                                            <?php echo $this->formElement($element); ?>
+                                            <span class="help-inline"><?php echo $this->formElementErrors($element) ?></span>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                                </div>
+                                    <?php
+                                    echo $this->form()->closeTag();
+                                    ?>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->translate('Close'); ?></button>
+
+                                <button type="button" id="confirmAddMemberButton" class="btn btn-success">
+                                    <?= $this->translate('Add member'); ?>
+                                </button>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal-dialog -->
+                </div><!-- /.modal -->
+                
+                <!--Popup til add contact-->
+                <div class="modal fade" id="myModalcontact">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                <h4 class="modal-title"><?= $this->translate('Add client contact'); ?></h4>
+                            </div>
+                            <div class="modal-body">
+                            <?php
+                            $formmember->prepare();
+                            echo $this->form()->openTag($formcontacts);
+                            ?><div class="form-group">
+                                <?php foreach ($formcontacts as $element) : ?>
+                                    <?php $element->setAttribute('class', 'form-control'); ?>
+                                    <div class="control-group form-group">
+                                        <label class="control-label"><?php echo $element->getLabel() ?></label>
+                                        <div  class="controls">
+                                            <?php echo $this->formElement($element); ?>
+                                            <span class="help-inline"><?php echo $this->formElementErrors($element) ?></span>
+                                        </div>
+                                    </div>
+                                <?php endforeach; ?>
+                                </div>
+                                    <?php
+                                    echo $this->form()->closeTag();
+                                    ?>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->translate('Close'); ?></button>
+                                <button type="button" id="confirmAddContactButton" class="btn btn-success">
+                                    <?= $this->translate('Add contact'); ?>
+                                </button>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- modal-dialog -->
+                </div><!-- modal -->
+
+                <!--Popup til delete label confirmation-->
+                <div class="modal fade" id="myModalDeleteMember">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                <h4 class="modal-title">    
+                                    <?= $this->translate('Remove project member'); ?>
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <p id="deletetextMember">
+                                    <?= $this->translate('You are about to remove the project member:'); ?>
+                                </p>
+                                 <p id="membernameDelete" ></p>
+                                 <p >
+                                    <?= $this->translate('The user will be removed as owner from alle project tasks.'); ?>
+                                </p>
+                                <p >
+                                    <?= $this->translate('Confirm remove project member?'); ?>
+                                </p>
+                               
+                                <p id="memberIdDelete" hidden="true"></p>
+                                 <p id="userIdDelete" hidden="true"></p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">
+                                    <?= $this->translate('Close'); ?>
+                                </button>
+                                <button type="button" id="confirmDeleteButtonMember" class="btn btn-success">
+                                    <?= $this->translate('Remove user'); ?>
+                                </button>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div> <!--modal-dialog -->
+                </div> <!-- modal -->
+                <br />
+                
+                
+                <!--Popup til delete contact confirmation-->
+                <div class="modal fade" id="myModalDeleteContact">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                <h4 class="modal-title">    
+                                    <?= $this->translate('Remove project contact'); ?>
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <p id="deletetextContact">
+                                    <?= $this->translate('You are about to remove the project contact:'); ?>
+                                </p>
+                                 <p id="contactnameDelete" ></p>
+                                 <p >
+                                    <?= $this->translate('The contact will be remove from project.'); ?>
+                                </p>
+                                <p >
+                                    <?= $this->translate('Confirm remove project contact?'); ?>
+                                </p>
+                               
+                                <p id="projectIdDelete" hidden="true"></p>
+                                 <p id="contactIdDelete" hidden="true"></p>
+                                 <p id="projectcontactIdDelete" hidden="true"></p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">
+                                    <?= $this->translate('Close'); ?>
+                                </button>
+                                <button type="button" id="confirmDeleteButtonContact" class="btn btn-success">
+                                    <?= $this->translate('Remove contact'); ?>
+                                </button>
+                            </div>
+                        </div> <!-- modal-content -->
+                    </div> <!-- modal-dialog --> 
+                </div> <!-- modal --> 
+                <br />
+
+                <!--Error alert-->
+                <div id="myModalError" class="modal fade">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                                <h4 class="modal-title" >   <?= $this->translate('Alert'); ?></h4>
+                            </div>
+                            <!-- dialog body -->
+                            <div class="modal-body">
+                                <p id="errortext"> </p>
+                            </div>
+                            <!-- dialog buttons -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-success" data-dismiss="modal">   <?= $this->translate('OK'); ?></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+

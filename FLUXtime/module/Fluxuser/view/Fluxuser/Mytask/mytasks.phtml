@@ -1,0 +1,92 @@
+<?php
+//Append js-fil
+//Append tablesorter til tabel 
+$this->headScript()->appendFile('../js/module/task/mytasks.js');
+$this->headScript()->appendFile($this->basePath().'/js/jquery.tablesorter.min.js');
+//For at køre js fra view
+$this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))->prependStylesheet('../css/jquery-ui.min.css');
+?>
+ 
+<?php
+$currentrole = $this->identity()!=null ? $this->identity()->getFkuserrole()->getPermissiongroup() : 'guest';
+$title = $this->translate('My current tasks');
+$this->headTitle($title);
+?>
+
+<!-- Render form-->
+<div id="contentpageheader">
+    <div id="searchdiv" class=" row">
+        <?php    
+        if ($this->form != null) {
+            $form = $this->form;
+            $runningTask = $this->runningTask;
+          
+            $form->setAttribute('class', 'pull-right');
+            echo $this->form()->render($form);
+        }  
+        ?>    
+
+        <span class="headerlogo fa fa-tasks fa-3x"></span>
+        <h1 ><?php echo $this->escapeHtml($title); ?></h1>   
+    </div>
+</div>
+
+<!-- Tabel - liste af projekter med tilhørende task-->
+<div class="table-responsive">
+    
+    <table id="taskList" class="tablesorter table table-hover table-striped" >
+        <!-- Table header-->
+        <thead>
+            <tr>
+                <th hidden="true"><?= $this->translate("id"); ?></th>
+                <th><?= $this->translate("task name"); ?></th>
+                <th><?= $this->translate("project name"); ?></th>                
+                <th><?= $this->translate("label"); ?></th>
+                <th><?= $this->translate("type"); ?></th>
+                <th><?= $this->translate("points"); ?></th>
+                <th><?= $this->translate("status"); ?></th>
+                <th><?= $this->translate("running-/Total time"); ?></th>
+                <th><?= $this->translate("actions"); ?></th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <!-- For hvert task-->
+            <?php 
+            $lastprojectname = '';
+            if ( isset($tasks) ) {
+                foreach ($tasks as $task){ 
+                    $currentproject = $task->getFkprojectid();
+                    $tasklabel = "<td></td>";
+                       if($task->getFklabelid() != null){ 
+                          $tasklabel = '<td>' . $this->escapeHtml($task->getFklabelid()->getLabelname()) . '</td>';
+                       }
+                    echo '<tr>
+                        <td>' . $this->escapeHtml($task->getTaskname()) . '</td> 
+                        <td>' . $this->escapeHtml($task->getFkprojectid()->getProjectname()) . '</td>'.
+                       $tasklabel
+                        .'<td>' . $this->escapeHtml($task->getTasktype()) . '</td>
+                        <td>' . $this->escapeHtml($task->getPoints()).'</td>
+                        <td id="status">' . $this->escapeHtml($task->getStatus()) . '</td>                
+                        <td id="duration"> ' . $tasktime[$task->getTaskid()] .  '</td>                
+                        <td style="width: 100px">';
+                            if ($runningTask == $task) { 
+                                $playclass='fa-pause activetask';
+                                $playtitle='Stop the task';
+                            } else {                                 
+                                $playclass='fa-play';
+                                $playtitle='Start the task';                          
+                            } 
+                            
+                            $ownerid = $taskowners[$task->getTaskid()];                       
+                            echo '<button id="' . $task->getTaskid() . '" data-owner="' . $ownerid . '" class="fa ' . $playclass . ' fa-2x playbutton" Style="padding-right: 0px" data-toggle="tooltip" title="' . $this->translate($playtitle) .'"></button> ';  
+                            echo '<button id="' . $task->getTaskid() . '"  class="fa fa-flag-checkered fa-2x finishbutton" Style="padding-right: 20px" data-toggle="tooltip" title="' . $this->translate("Finish") .'"></button>';                        
+                        echo '</td>               
+                    </tr>';
+                }                  
+            }
+         
+            ?>
+        </tbody>
+    </table>
+</div>

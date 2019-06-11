@@ -1,0 +1,197 @@
+<?php
+//Append js-fil
+//Append tablesorter til tabel 
+$this->headScript()->appendFile('../js/jquery.datetimepicker.js');
+$this->headScript()->appendFile('../js/jquery.tablesorter.min.js');
+$this->headScript()->appendFile('../js/module/report/reportuser.js');
+
+//For at køre js fra view
+$this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))->prependStylesheet('../js/jquery.datetimepicker.css');
+$this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))->prependStylesheet('../css/jquery-ui.min.css');
+
+?>
+
+<?php
+$currentrole = $this->identity()!=null ? $this->identity()->getFkuserrole()->getPermissiongroup() : 'guest';
+$title = $this->translate('Projectreport');
+$this->headTitle($title);
+?>
+
+<!-- Render form-->
+<div id="contentpageheader">
+    <div id="searchdiv" class="row timeregsearch">
+
+        <a class=" pull-right linkbarSearch" href="<?php echo $this->url('report', array('action' => 'index')); ?>" data-toggle="tooltip" title="<?= $this->translate("Back to reports"); ?>">
+        <?= $this->translate("Back"); ?></a>
+        <span class="headerlogo fa fa-copy fa-3x"></span>
+        <h1 ><?php echo $this->escapeHtml($title); ?></h1>   
+    </div>
+</div>
+
+
+<?php 
+    if ($projects != null) : ?>
+        <h3><?= $this->translate("Please choose projects"); ?> </h3>   
+        <div id="formdiv">
+                <!--Render form-->
+                <?php
+                $form->setAttribute('action', $this->url('report', array('action' => 'project')));
+                $form->prepare();
+
+                //Form content
+                echo $this->form()->openTag($form);
+                ?>
+
+                <div class="container form-group">
+                    <?php foreach ($form as $element) : ?>
+                        <?php if ($element->getName() != 'submit' && $element->getName() != 'submitcsv') : ?>
+                            <?php $element->setAttribute('class', 'form-control'); ?>
+                            <div class="input-group form-group">
+                                <label class="control-label"><?php echo $element->getLabel() ?></label>
+                                <div class="controls">
+                                    <?php echo $this->formElement($element); ?>
+                                    <span class="help-inline"><?php echo $this->formElementErrors($element) ?></span>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                </div>
+                <br />
+        
+                <table id="timeregList" class="tablesorter table table-hover table-striped table-responsive">
+                <!-- Table header-->
+                <thead>
+                    <tr>
+                        <th hidden="true"><?= $this->translate("id"); ?></th>
+                        <th><?= $this->translate("Project"); ?></th>
+                        <th><input class="checkall" type="checkbox" name="projectcheckboxall"<?php if ($projectchecked && $projects && count($projectchecked)== count($projects) ) { echo " checked "; } ?> value="all"> <?= $this->translate('ALL'); ?></th>
+                        <th><?= $this->translate('PROJECTLABELS'); ?></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <!-- For hvert task-->
+                    <?php 
+                    if ( isset($projects) ) :
+                        foreach ($projects as $project ) : ?>
+                            <tr>
+                                <td> <span><?= $project->getProjectname(); ?></span></td>
+                                <?php                                    
+                                    // set checked value in checkbox
+                                    $ischecked = "";
+                                    
+                                    if ($projectchecked && array_key_exists($project->getProjectname(), $projectchecked) ) {
+                                        $ischecked = " checked ";
+                                    }                                
+                                ?>                                
+                                
+                                <td> <input class="checkvalue" type="checkbox" name="projectcheckbox[]" <?= $ischecked; ?> value="<?= $project->getProjectname()?>"></td>
+                                <td>
+                                <?php                                    
+                                        $plabels = $projectlabels[ $project->getProjectid() ];
+                                        if ($plabels) {
+                                            foreach ($plabels as $plabel) {
+                                                $ischecked = "";
+                                                if ($projectlabelchecked && array_key_exists($plabel->getLabelname(), $projectlabelchecked) ) {
+                                                    $ischecked = " checked ";
+                                                }
+                                                echo '<input style="margin-left: 8px" class="checklabelvalue" type="checkbox" name="projectlabelcheckbox[]" '. $ischecked . 'value=" ' . $plabel->getLabelname() . '"><span>' . $plabel->getLabelname() . '</span>';                                            
+                                            }                                            
+                                        }
+                                ?>
+                                </td>
+                            </tr> 
+                            <?php
+                        endforeach;
+                    endif;
+                    ?>
+                </tbody>        
+            </table>   
+                <?php 
+                endif;
+                ?>
+        </div> 
+        
+        <div id="results">
+                <div class="table-responsive">
+                    <table id="timeregList" class="tablesorter table table-hover table-striped" >
+                        <!-- Table header-->
+                        <thead>
+                            <tr>
+                                <th><?= $this->translate("taskid"); ?></th>
+                                <th><?= $this->translate("taskname"); ?></th>
+                                <th><?= $this->translate("client"); ?></th>
+                                <th><?= $this->translate("project"); ?></th>
+                                <th><?= $this->translate("Owner"); ?></th>                                
+                                <th><?= $this->translate("label"); ?></th>                                
+                                <th><?= $this->translate("Pivotalid"); ?></th>                                
+                                <th><?= $this->translate("start"); ?></th>                
+                                <th><?= $this->translate("stop"); ?></th>
+                                <th><?= $this->translate("duration"); ?></th>                                
+                                <th><?= $this->translate("Owner"); ?></th>                
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <!-- For hvert task-->
+                            <?php 
+                            $lastprojectname = '';
+                            if ( isset($timeregs) ) {
+                                foreach ($timeregs as $timereg){                     
+                                    $start = new DateTime();
+                                    $start->setTimestamp($timereg->getTimestart()->getTimestamp());
+                                    if ($timereg->getTimestop() != null ) {
+                                        $stop = new DateTime();
+                                        $stop ->setTimestamp($timereg->getTimestop()->getTimestamp());
+                                        $stopstring = $stop->format('d-m-Y H:i (s)');
+                                        $timediff = $stop->getTimestamp() - $start->getTimestamp();
+                                        $diff = floor($timediff / 3600) . ':' . floor(($timediff / 60) % 60) . ':' . $timediff % 60;
+                                    } else {
+                                        $stopstring = '<span class="btn-warning">&nbsp;&nbsp;' .  $this->translate( 'Running' ) . '&nbsp;&nbsp;</span>';
+                                        $diff = '-';
+                                    }
+
+                                    echo '<tr>
+                                        <td>' . $this->escapeHtml($timereg->getFktaskownerid()->getFktaskid()->getTaskid()) . '</td>
+                                        <td>' . $this->escapeHtml($timereg->getFktaskownerid()->getFktaskid()->getTaskname()) . '</td>
+                                        <td>' . $this->escapeHtml($timereg->getFktaskownerid()->getFktaskid()->getFkprojectid()->getFkclientid()->getClientname()) . '</td>
+                                        <td>' . $this->escapeHtml($timereg->getFktaskownerid()->getFktaskid()->getFkprojectid()->getProjectname()) . '</td>
+                                        <td>' . $this->escapeHtml($timereg->getFktaskownerid()->getFkuserid()->getUsername()).'</td>                                                                                     
+                                        <td>' . $this->escapeHtml($timereg->getFktaskownerid()->getFktaskid()->getFklabelid()->getLabelname()).'</td>                                             
+                                        <td>' . $this->escapeHtml($timereg->getFktaskownerid()->getFktaskid()->getFkprojectid()->getSecondid()) . '</td>                                             
+                                        <td>' . $this->escapeHtml( $start->format('d-m-Y H:i (s)') ) . '</td>
+                                        <td>' . $stopstring . '</td>                       
+                                        <td id="duration">' . $diff. '</td>
+                                        <td id="owner">' . $timereg->getFktaskownerid()->getFkuserid()->getUsername() . '</td>                           
+                                    </tr>';                                    
+                                    
+                                }                  
+                            }
+
+                            ?>
+                        </tbody>        
+                    </table>
+                    </div>
+                    <div class="container submit ">
+                        <?php   echo $this->formRow($form->get('submit')); 
+                                if ( !empty( $timeregs ) ) {
+                                    echo $this->formRow($form->get('submitcsv'));                                     
+                                }
+                        ?>
+                        <!--Return til project tasks -->
+                        <a class="btn btn-default" href="/report/index"> 
+                            <?= $this->translate("Return to reports"); ?>
+                        </a>
+                        <!-- save current report -->
+                        <?php if ($this->formElementErrors($form->get('submitcsv'))) : ?>
+                            <span class="help-inline"> <?php echo $this->formElementErrors($form->get('submitcsv')) ?> </span>
+                        <?php endif; ?>
+                        <?php if ($this->formElementErrors($form->get('submit'))) : ?>
+                            <span class="help-inline"> <?php echo $this->formElementErrors($form->get('submit')) ?> </span>
+                        <?php endif; ?>
+                    </div>  
+
+                    <?php
+                      echo $this->form()->closeTag();  
+                    ?>            
+        </div>

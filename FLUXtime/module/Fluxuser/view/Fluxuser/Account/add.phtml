@@ -1,0 +1,60 @@
+<?php
+//Append js-fil
+$this->headScript()->prependFile($this->basePath() . '/js/module/account/add.js');
+$this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))->prependStylesheet($this->basePath() . '/css/account/accountcustom.css');
+?>
+
+<?php
+//Page title
+$title = 'Create new account';
+$this->headTitle($title);
+?>
+<!--Heading-->
+<div id="contentpageheader">
+
+    <h1>
+        <span class="headerlogo fa fa-folder"></span>
+        <span class="h1text"> <?= $this->escapeHtml($title) ?> <span>                
+                </h1>
+                </div>  
+
+
+                <div id="accountadd">
+                    <!--Form-->
+                    <!--New adresse/url-->  
+<?php
+$form->setAttribute('action', $this->url('account', array('action' => 'add')));
+$form->prepare();
+
+//Form content
+echo $this->form()->openTag($form);
+echo $this->formHidden($form->get('accountid'));
+?>
+
+                    <div class="container form-group">
+<?php foreach ($form as $element) : ?>
+                            <?php if ($element->getName() != 'submit') : ?>
+                                <?php $element->setAttribute('class', 'form-control'); ?>
+                                <div class="input-group form-group">
+                                    <label class="control-label"><?php echo $element->getLabel() ?></label>
+                                    <div class="controls">
+        <?php echo $this->formElement($element); ?>
+                                        <span class="help-inline"><?php echo $this->formElementErrors($element) ?></span>
+                                    </div>
+
+                                </div>
+    <?php endif; ?>
+                        <?php endforeach; ?>
+                    </div>
+                </div>
+                <br />
+                <div class="container <?php echo $form->get('submit')->getName(); ?>">
+<?php echo $this->formRow($form->get('submit')); ?>
+                    <?php if ($this->formElementErrors($form->get('submit'))) : ?>
+                        <span class="help-inline"> <?php echo $this->formElementErrors($form->get('submit')) ?> </span>
+                    <?php endif; ?>
+                </div>
+
+
+
+

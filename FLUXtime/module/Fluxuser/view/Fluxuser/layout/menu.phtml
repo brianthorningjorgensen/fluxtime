@@ -1,0 +1,59 @@
+
+<ul class="pull-right <?php echo $this->navigation()->menu()->getUlClass(); ?>">
+    <?php
+
+    use Zend\Session\Container;
+
+    if ($this->identity() != null) {
+            $role = $this->identity()->getFkuserrole()->getPermissiongroup();
+    } else {
+        $role = 'guest';
+    }
+
+    $session = new Container('language');
+    $current = $session->offsetGet('Current');
+    if ($current === NULL) {
+        $current = 'en_US';
+    }
+
+    foreach ($this->container as $page):
+        $authenticated = $this->identity() != null;
+
+        if (($page->get('buttonname') == 'DANSK' && ($role == 'guest' || $role == 'admin' || $role == 'project manager' || $role == 'system owner' || $role == 'user') && ($current === 'en_US')) ||
+                ($page->get('buttonname') == 'ENGLISH' && ($role == 'guest' || $role == 'admin' || $role == 'project manager' || $role == 'system owner' || $role == 'user') && ($current === 'da_DK')) ||
+                ($authenticated && $page->get('buttonname') == 'LOGOUT' && ($role == 'admin' || $role == 'project manager' || $role == 'system owner' || $role == 'user')) ||
+                ($authenticated && $page->get('buttonname') == 'PROFILE' && ($role == 'admin' || $role == 'project manager' || $role == 'system owner' || $role == 'user')) ||
+                ($authenticated && $page->get('buttonname') == 'USERS' && ($role == 'admin' || $role == 'project manager' || $role == 'system owner' || $role == 'user')) ||
+                ($authenticated && $page->get('buttonname') == 'CLIENTS' && ($role == 'admin' || $role == 'project manager' || $role == 'system owner' || $role == 'user')) ||
+                ($authenticated && $page->get('buttonname') == 'REPORTS' && ($role == 'admin' || $role == 'project manager' || $role == 'system owner')) ||
+                ($authenticated && $page->get('buttonname') == 'MY TASKS' && ($role == 'admin' || $role == 'project manager' || $role == 'system owner' || $role == 'user')) ||
+                ($authenticated && $page->get('buttonname') == 'PROJECTS' && ($role == 'admin' || $role == 'project manager' || $role == 'system owner' || $role == 'user')) ||
+                ($authenticated && $page->get('buttonname') == 'MY LOG' && ($role == 'admin' || $role == 'project manager' || $role == 'system owner' || $role == 'user')) ||
+                ($authenticated && $page->get('buttonname') == 'LOG' && ($role == 'admin' || $role == 'system owner'))
+        ):
+
+            // to use in profilebutton 
+            $userid = '';
+       
+            if ($page->get('buttonname') == 'PROFILE' && $authenticated) {
+                $encryptid = $this->encrypt($this->identity()->getId(), SECRET_KEY);
+                $encrypt = str_replace('+', '%20', $encryptid);
+                $userid = '/' . $encrypt ;
+             
+            }
+            ?>
+
+            <!-- add extra span with button label name -->
+            <li style="display:inline"<?php if ($page->isActive()) : echo ' class="active"';
+        endif; ?>>
+                <a href="<?php echo $page->getHref() . $userid ?>">
+                    <i class="<?php echo $page->getClass() ?>"></i>
+                    <span class="navitemtext"><?php echo $this->translate($page->get('buttonname')) ?></span>
+                </a>
+            </li>
+
+            <?php
+        endif;
+    endforeach;
+    ?>
+</ul>

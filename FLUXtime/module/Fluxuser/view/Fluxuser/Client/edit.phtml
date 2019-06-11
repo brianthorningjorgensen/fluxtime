@@ -1,0 +1,217 @@
+<?php
+//Append js-fil
+ $this->headScript()->prependFile($this->basePath() . '/js/module/client/edit.js');
+ $this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))->prependStylesheet($this->basePath() . '/css/project/projectcustom.css');
+
+?>
+
+<?php
+$currentrole = $this->identity()!=null ? $this->identity()->getFkuserrole()->getPermissiongroup() : 'guest';
+
+//Page title
+$title = $this->translate('Edit client');
+$this->headTitle($title);
+?>
+<!--Heading-->
+<div id="contentpageheader">
+
+    <h1>
+        <span class="headerlogo fa fa-folder"></span>
+        <span class="h1text"> <?= $this->escapeHtml($title) ?> <span>                
+    </h1>
+</div>  
+
+
+<div id="projectadd">
+    <!--Form-->
+    <!--New adresse/url-->  
+    <?php
+        $form->setAttribute('action', $this->url('client', array('action' => 'edit', 'id' => $this->id,)));
+        $form->prepare();
+
+        //Form content
+        echo $this->form()->openTag($form);
+        echo $this->formHidden($form->get('clientid'));
+    ?>
+    
+    <div id="error-div" class="alert label-danger hidden" role="alert">
+        <?php foreach ($this->messages as $message) : ?>
+            <?php if (is_string($message)) : ?>
+                <strong class="white-text"><?php echo $message ?></strong>
+            <?php endif; ?>
+        <?php endforeach; ?>
+        <?php foreach ($form as $element) : ?>
+            <?php if (!empty($this->formElementErrors($element))) : ?>
+                <label class="control-label white-text"><?php echo $this->translate($element->getLabel()) ?></label>
+                <strong class="white-text"><?php echo $this->formElementErrors($element) ?></strong>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    </div>
+
+    <div class="container form-group">
+        <?php foreach ($form as $element) : ?>
+            <?php if ($element->getName() != 'submit' && $element->getName() != 'clientid') : ?>
+            <?php $element->setAttribute('class', 'form-control'); ?>
+                <div class="control-group form-group">
+                    <label class="control-label"><?php echo $this->translate($element->getLabel()) ?></label>
+                    <div class="controls">
+                        <?php echo $this->formElement($element); ?>
+                    </div>
+
+                </div>
+            <?php endif; ?>
+        <?php endforeach; ?>
+    </div>
+</div>
+<br />
+<?php if($permissubmit == true){   ?>
+<div class="container <?php echo $form->get('submit')->getName(); ?>">
+    <?php echo $this->formRow($form->get('submit')); ?>
+</div>
+<?php 
+echo $this->form()->closeTag();
+
+}?>
+
+<br />
+
+<div id="contactedit">
+     <!-- MODAL -->
+   <!--Popup til edit/add contact-->
+    <div class="modal fade" id="myModalContactEdit" >
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                    <h4 class="modal-title"><?= $this->translate('Edit contact'); ?></h4>
+                </div>
+                <div class="modal-body">
+                    <?php
+                        $contactform->prepare();
+                        echo $this->form()->openTag($contactform);
+                    ?>
+                         <div class=" form-group">
+
+                        <?php foreach ($contactform as $element) : ?>
+                            <?php $element->setAttribute('class', 'form-control'); ?>
+                                <label class="control-label"><?php echo $element->getLabel() ?></label>
+                                <div class="control-group">
+                                    <?php echo $this->formElement($element); ?>
+                                    <span class="help-inline"><?php echo $this->formElementErrors($element) ?></span>
+                                </div>
+                            <?php endforeach; ?>
+                        </div>
+                        <?php
+                        echo $this->form()->closeTag();
+
+                    ?>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><?= $this->translate('Close'); ?></button>
+                    <button type="button" id="confirmEditContactButton" class="btn btn-success" >
+                        <?= $this->translate('Save contact'); ?>
+                    </button>
+                    <button type="button" id="confirmCreateContactButton" class="btn btn-success">
+                        <?= $this->translate('Create contact'); ?>
+                    </button>
+                </div>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div><!-- /.modal -->
+     
+</div>
+  <!--     Tabel - liste af contacts-->
+<div class="table-responsive">
+    <h4><?= $this->translate("Contacts");?></h4>
+    <table id="contactList" class="tablesorter table table-hover table-striped" >
+        <thead>
+            <tr>
+                <th hidden="true"><?= $this->translate("id"); ?></th>
+                <th  ><?= $this->translate("First name"); ?></th>
+                 <th ><?= $this->translate("Last name"); ?></th>
+                  <th ><?= $this->translate("phone"); ?></th>
+                   <th  ><?= $this->translate("email"); ?></th>
+                    <th  hidden="true"><?= $this->translate("description"); ?></th>
+
+                <th style="width: 100px"><?= $this->translate("actions");
+                        ?>
+                        <a id="newButton"  class="fa fa-plus-circle addContact" style="padding-left: 20px" data-clientid="<?= $id; ?>" href="" title="Create new contact">
+                        </a>                 
+
+                </th>
+            </tr>
+        </thead>
+
+
+        <tbody>
+            <!-- For hvert projekt-->
+            <?php foreach ($contacts as $contact) : ?>
+                <tr id="contactrow<?= $contact->getcontactid(); ?>">
+                    <td id="rowcid" hidden="true"><?php echo $this->escapeHtml($contact->getFkclientid()->getclientid()); ?></td>                     
+                    <td id="rowcoid" hidden="true"><?php echo $this->escapeHtml($contact->getcontactid()); ?></td>                     
+                    <td id="rowfirst"><?php echo $this->escapeHtml($contact->getFirstname()); ?></td>    
+                    <td id="rowlast"><?php echo $this->escapeHtml($contact->getLastname()); ?></td>    
+                    <td id="rowphone"><?php echo $this->escapeHtml($contact->getPhone()); ?></td>    
+                    <td id="rowemail"><?php echo $this->escapeHtml($contact->getEmail()); ?></td>    
+                    <td id="rowdescription" hidden="true"><?php echo $this->escapeHtml($contact->getDescription()); ?></td>    
+                    <td>
+                        <!--             Edit og delete buttons-->
+                        <?php
+                        
+                        if ($this->layout()->acl->isAllowed($currentrole, 'contact/ajaxedit') ) {
+                            ?>
+                            <a id="editButton" class="fa fa-edit fa-2x editContact" Style="padding-right: 20px" href="" data-clientid="<?= $id; ?>"  data-contactid="<?php echo $contact->getContactid(); ?>" data-contactfirstname="<?php echo $contact->getFirstname(); ?>"  data-contactlastname="<?php echo $contact->getLastname(); ?>"  data-contactphone="<?php echo $contact->getPhone(); ?>"  data-contactemail="<?php echo $contact->getEmail(); ?>"  data-contactdescription="<?php echo $contact->getDescription(); ?>" title="Edit contact">
+                            </a>
+                            <?php
+                        }
+                        if ($this->layout()->acl->isAllowed($currentrole, 'contact/ajaxdelete') ) {
+                            ?>
+                            <a id="deleteButton" class="fa fa-trash-o fa-2x deleteContact" href="" data-contactname="<?php echo $contact->getFirstname() . ' ' . $contact->getLastname(); ?>" data-contactid="<?php echo $contact->getContactid(); ?>" title="Delete contact">
+                            </a> 
+                            <?php } 
+                        ?>
+                    </td>
+                </tr>
+            <?php endforeach; ?>
+        </tbody>
+    </table>
+    
+ 
+    
+</div>
+  
+  
+
+<div id="deletecontactid">
+    <!--Popup til delete confirmation-->
+<div class="modal fade" id="deletecontactModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">   <?= $this->translate('Delete contact'); ?></h4>
+            </div>
+            <div class="modal-body">
+                <p > <?= $this->translate('You are about to delete the contact:'); ?></p>
+              
+                <p id="contactdeletetext"></p>
+                  <p > <?= $this->translate('(Please note that the contact will be removed from all projects)'); ?></p>
+                <p ><?= $this->translate('Confirm delete contact?'); ?></p>
+                <p id="contactIdDelete" hidden="true"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">   <?= $this->translate('Close'); ?></button>
+                <button type="button" id="confirmcontactdeleteButton" class="btn btn-success">
+                    <?= $this->translate('Delete contact'); ?>
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+    
+    
+</div>
+
+
+
+   

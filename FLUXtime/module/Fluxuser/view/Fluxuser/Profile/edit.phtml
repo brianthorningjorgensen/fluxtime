@@ -1,0 +1,68 @@
+<?php
+$this->headScript()->appendFile($this->basePath() . '/js/module/profile/edit.js');
+$title = $this->translate('Edit profile');
+$this->headTitle($title);
+?>
+
+<div id="contentpageheader">
+    <span class="headerlogo fa fa-user fa-3x"></span>
+    <h1 class="h1text"><?php echo $this->escapeHtml($title) ?></h1>                
+</div>
+
+<?php
+$form = $this->form;
+$form->setAttribute('action', $this->url(
+                'profile', array(
+            'action' => 'edit',
+            'id' => $this->id,
+                )
+));
+$form->prepare();
+
+// form content
+echo $this->form()->openTag($form);
+echo $this->formHidden($form->get('id'));
+?>
+
+<div id="error-div" class="alert label-danger hidden" role="alert">
+    <?php foreach ($this->messages as $message) : ?>
+        <?php if (is_string($message)) : ?>
+            <strong class="white-text"><?php echo $message ?></strong>
+        <?php endif; ?>
+    <?php endforeach; ?>
+    <?php foreach ($form as $element) : ?>
+        <?php if (!empty($this->formElementErrors($element))) : ?>
+            <label class="control-label white-text"><?php echo $this->translate($element->getLabel()) ?></label>
+            <strong class="white-text"><?php echo $this->formElementErrors($element) ?></strong>
+        <?php endif; ?>
+    <?php endforeach; ?>
+</div>
+
+<div class="container form-group">
+    <?php foreach ($form as $element) : ?>
+        <?php if ($element->getName() != 'submit' && $element->getName() != 'id') : ?>
+            <?php $element->setAttribute('class', 'form-control'); ?>
+            <div class="control-group  form-group">
+                <label class="control-label"><?php echo $this->translate($element->getLabel()) ?></label>
+                <div class="controls">
+                    <?php echo $this->formElement($element); ?>
+                </div>
+            </div>
+        <?php elseif ($element->getName() == 'submit') : ?>
+            <div class = "form-submit-button">
+                <?php echo $this->formRow($form->get('submit'));
+                ?>
+            </div>
+        <?php else : ?>
+            <label class="control-label"><?php echo $form->get('id')->getLabel() ?></label>
+            <div class="controls">
+                <?php
+                echo $this->formElement($form->get('id'));
+                ?>
+            </div>
+        <?php endif; ?>
+    <?php endforeach; ?>
+</div>
+
+<?php
+echo $this->form()->closeTag();

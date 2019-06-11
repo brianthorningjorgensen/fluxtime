@@ -1,0 +1,159 @@
+<?php
+//Append js-fil
+$this->headScript()->prependFile($this->basePath() . '/js/module/project/index.js');
+//Append tablesorter til tabel med projekter
+$this->headScript()->appendFile($this->basePath() . '/js/jquery.tablesorter.min.js');
+//For at køre js fra view
+$this->headLink(array('rel' => 'shortcut icon', 'type' => 'image/vnd.microsoft.icon', 'href' => $this->basePath() . '/img/favicon.ico'))->prependStylesheet($this->basePath() . '/css/jquery-ui.min.css');
+?>
+
+<?php
+$currentrole = $this->identity()!=null ? $this->identity()->getFkuserrole()->getPermissiongroup() : 'guest';
+$title = $this->translate('Projects');
+$this->headTitle($title);
+?>
+
+<!--Popup til delete confirmation-->
+<div class="modal fade" id="myModal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title">   <?= $this->translate('Delete project'); ?></h4>
+            </div>
+            <div class="modal-body">
+                <p > <?= $this->translate('You are about to delete the project:'); ?></p>
+                <p id="deletetext"></p>
+                <p id="projectIdDelete" hidden="true"></p>
+                 <p><?php echo $this->translate('Confirm delete project?'); ?></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">   <?= $this->translate('Close'); ?></button>
+                <button type="button" id="confirmButton" class="btn btn-success">
+                    <?= $this->translate('Delete project'); ?>
+                </button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+<!-- Render form-->
+<div id="contentpageheader">
+    <div id="searchdiv" class=" row">
+        <?php    
+        if ($this->form != null) {
+            $form = $this->form;
+            $form->setAttribute('class', 'pull-right');
+            echo $this->form()->render($form);
+        } else {
+            echo $this->translate('Form do not exist');
+        }  
+        ?>    
+         <!-- CREATE BUTTON -->
+        <?php
+        if ($this->layout()->acl-> isAllowed($currentrole, 'project/add')) {?>
+            <a class=" pull-right linkbarSearch fa fa-plus-circle fa-2x" href="<?php echo $this->url('project', array('action' => 'add')); ?>" data-toggle="tooltip" title="<?= $this->translate("Create new project"); ?>">
+            </a>
+        <?php
+        } ?>          
+
+        <span class="headerlogo fa fa-folder-open fa-3x"></span>
+        <h1 ><?php echo $this->escapeHtml($title); ?></h1>   
+    </div>
+</div>
+
+<!-- Tabel - liste af projekter-->
+<div class="table-responsive">
+<table id="projectList" class="tablesorter table table-hover table-striped" >
+    <!--            Table header-->
+    <thead>
+        <tr>
+            <th hidden="true"><?= $this->translate("id"); ?></th>
+            <th><?= $this->translate("project"); ?></th>
+            <th><?= $this->translate("date"); ?></th>
+            <th><?= $this->translate("Project manager"); ?></th>
+            <th><?= $this->translate("client"); ?></th>
+            <th><?= $this->translate("Import id"); ?></th>
+            <th style="width: 150px"><?= $this->translate("actions"); ?></th>
+        </tr>
+    </thead>
+
+
+    <tbody>
+        <!-- For hvert projekt-->
+        <?php foreach ($projects as $project) : ?>
+            <tr>
+                <td hidden="true"><?php echo $this->escapeHtml($project->getProjectid()); ?></td> 
+
+                <td><?php echo $this->escapeHtml($project->getProjectname()); ?></td>
+
+                <td><?php echo $this->escapeHtml($project->getCreatedate()->format('Y-m-d')); ?>
+
+                <td><?php if ($project->getFkProjectmanager() != null) {
+            $username = $project->getFkProjectmanager()->getUsername();
+            echo $this->escapeHtml('' . $username);
+        } ?></td>
+                  <td><?php if ($project->getFkclientid() != null) {
+            $client = $project->getFkclientid()->getClientname();
+            echo $this->escapeHtml('' . $client);
+        } ?></td>
+                <td><?php echo $this->escapeHtml($project->getSecondid()); ?></td>
+
+                <td style="width: 150px">                    
+                    <?php
+                    $id = $this->encrypt($project->getProjectid(), SECRET_KEY);
+                    $encrypt = str_replace('+', '%20', $id);
+                    //  Edit buttons 
+                    if ($this->layout()->acl-> isAllowed($currentrole, 'project/edit')) {?>                   
+                    <a class="fa fa-edit fa-2x" Style="padding-right: 20px" href="/project/edit/<?=$encrypt?>" data-toggle="tooltip" title="<?= $this->translate("Edit project and manage members, contacts and labels"); ?>">
+                        </a>
+                    <?php
+                    } 
+                        $id = $this->encrypt($project->getProjectid(), SECRET_KEY); 
+                        $encrypt = str_replace('+', '%20', $id);
+                        // projecttasks    ?>
+                             
+                    <a id="projecttasksButton" class="fa fa-tasks fa-2x" href="/task/index/<?=$encrypt?>" data-toggle="tooltip" title="<?= $this->translate("Show all project tasks"); ?>"></a> 
+                    <?php
+                    
+                  
+                     $secondid = $project->getSecondid();               
+                    // Delete buttons                     
+                    if ($this->layout()->acl-> isAllowed($currentrole, 'project/ajaxconfirmdelete') && $secondid == null) {?>
+                        <a id="deleteButton" class="fa fa-trash-o fa-2x deleteProject" href="" data-projectid="<?php echo $project->getProjectid(); ?>" data-projectname="<?php echo $project->getProjectname(); ?>" data-toggle="tooltip" title="<?= $this->translate("Delete project"); ?>"></a> 
+                     <?php
+                    }
+                    
+                    ?>
+                </td>
+            </tr>
+<?php endforeach; ?>
+    </tbody>
+</table>
+</div>
+
+<!--Error delete alert-->
+<div id="myModalErrorDelete" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+         <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" >   <?= $this->translate('Alert'); ?></h4>
+            </div>
+      <!-- dialog body -->
+      <div class="modal-body">
+        <p id="errortext"> <?= $this->translate('Sorry, the project cannot be deleted (label, members or tasks added).'
+                . ' Edit and uncheck "Active" to remove.'); ?></p>
+      </div>
+      <!-- dialog buttons -->
+          <div class="modal-footer">
+       <button type="button" class="btn btn-success" data-dismiss="modal">   <?= $this->translate('OK'); ?></button>
+    </div>
+       </div>
+  </div>
+</div>
+<?php ?>
+        
+
+
+

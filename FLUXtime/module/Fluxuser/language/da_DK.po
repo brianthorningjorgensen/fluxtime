@@ -1,0 +1,875 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: FLUXtime\n"
+"POT-Creation-Date: 2014-12-11 14:23+0100\n"
+"PO-Revision-Date: 2015-01-12 21:06+0100\n"
+"Last-Translator: \n"
+"Language-Team: BadBoys\n"
+"Language: da_DK\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.7.3\n"
+"X-Poedit-Basepath: C:\\xampp\\htdocs\\FLUXtime\\module\\fluxuser\\\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-KeywordsList: translate\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: view/Fluxuser/Fluxuser/add.phtml:3 view/Fluxuser/Fluxuser/writecsv.phtml:3
+msgid "Create new user"
+msgstr "Opret ny bruger"
+
+#: view/Fluxuser/Fluxuser/confirmresetpassword.phtml:4
+msgid "Confirm password change"
+msgstr "Bekræft ændring af adgangskode"
+
+#: view/Fluxuser/Fluxuser/confirmuser.phtml:3
+msgid "Confirm user"
+msgstr "Bekræft bruger"
+
+#: view/Fluxuser/Fluxuser/edit.phtml:3
+msgid "User"
+msgstr "Bruger"
+
+#: view/Fluxuser/Fluxuser/index.phtml:10
+msgid "Users"
+msgstr "Brugere"
+
+#: view/Fluxuser/Fluxuser/index.phtml:19 view/Fluxuser/Fluxuser/index.phtml:30
+msgid "Delete user"
+msgstr "Slet bruger"
+
+#: view/Fluxuser/Fluxuser/index.phtml:23
+msgid "You are about to delete the user:"
+msgstr "Du er i gang med at slette brugeren:"
+
+#: view/Fluxuser/Fluxuser/index.phtml:25
+msgid "Do you want to do this?"
+msgstr "Vil du gøre dette?"
+
+#: view/Fluxuser/Fluxuser/index.phtml:28 view/Fluxuser/Project/edit.phtml:97
+#: view/Fluxuser/Project/edit.phtml:137 view/Fluxuser/Project/edit.phtml:272
+#: view/Fluxuser/Project/edit.phtml:300 view/Fluxuser/Project/index.phtml:29
+msgid "Close"
+msgstr "Luk"
+
+#: view/Fluxuser/Fluxuser/index.phtml:45 view/Fluxuser/Project/index.phtml:47
+msgid "Form do not exist"
+msgstr "Formen findes ikke"
+
+#: view/Fluxuser/Fluxuser/index.phtml:51
+msgid "Create a new user"
+msgstr "Opret ny bruger"
+
+#: view/Fluxuser/Fluxuser/index.phtml:66
+msgid "Id"
+msgstr "Id"
+
+#: view/Fluxuser/Fluxuser/index.phtml:68
+msgid "First name"
+msgstr "Fornavn"
+
+#: view/Fluxuser/Fluxuser/index.phtml:69
+msgid "Last name"
+msgstr "Efternavn"
+
+#: view/Fluxuser/Fluxuser/index.phtml:70
+msgid "Username"
+msgstr "Brugernavn"
+
+#: view/Fluxuser/Fluxuser/index.phtml:71
+msgid "Permissions"
+msgstr "Rettigheder"
+
+#: view/Fluxuser/Fluxuser/index.phtml:72
+msgid "Actions"
+msgstr "Funktioner"
+
+#: view/Fluxuser/Fluxuser/index.phtml:91
+msgid "Edit user"
+msgstr "Rediger bruger"
+
+#: view/Fluxuser/Fluxuser/index.phtml:102
+msgid "Delete this user"
+msgstr "Slet bruger"
+
+#: view/Fluxuser/Fluxuser/index.phtml:108
+msgid "Confirmed"
+msgstr "Bekræftet"
+
+#: view/Fluxuser/Fluxuser/index.phtml:110
+msgid "Waiting for confirmation"
+msgstr "Venter på bekræftigelse"
+
+#: view/Fluxuser/Fluxuser/login.phtml:3
+msgid "User Authentication"
+msgstr "Bruger godkendelse"
+
+#: view/Fluxuser/Fluxuser/profile.phtml:3
+msgid "Edit profile"
+msgstr "Rediger profil"
+
+#: view/Fluxuser/Fluxuser/resetpassword.phtml:3
+msgid "Reset password"
+msgstr "Nulstil password"
+
+#: view/Fluxuser/Fluxuser/welcome.phtml:3
+msgid "Welcome "
+msgstr "Velkommen"
+
+#: view/Fluxuser/Project/edit.phtml:86 view/Fluxuser/Project/index.phtml:22
+msgid "Please confirm delete"
+msgstr "Bekræft sletning"
+
+#: view/Fluxuser/Project/edit.phtml:91
+msgid "Confirm delete label?"
+msgstr "Slet label?"
+
+#: view/Fluxuser/Project/edit.phtml:100
+msgid "Delete label"
+msgstr "Slet label"
+
+#: view/Fluxuser/Project/edit.phtml:115
+msgid "Label"
+msgstr "Label"
+
+#: view/Fluxuser/Project/edit.phtml:139 view/Fluxuser/Project/edit.phtml:141
+msgid "Save label"
+msgstr "Gem label"
+
+#: view/Fluxuser/Project/edit.phtml:155 view/Fluxuser/Project/index.phtml:69
+#: view/Fluxuser/Project/index.phtml:74
+msgid "id"
+msgstr "Id"
+
+#: view/Fluxuser/Project/edit.phtml:156
+msgid "projectid"
+msgstr "Project Id"
+
+#: view/Fluxuser/Project/edit.phtml:157
+msgid "label"
+msgstr "Label"
+
+#: view/Fluxuser/Project/edit.phtml:159 view/Fluxuser/Project/edit.phtml:207
+#: view/Fluxuser/Project/index.phtml:75
+msgid "actions"
+msgstr "Funktioner"
+
+#: view/Fluxuser/Project/edit.phtml:204
+msgid "projectuserid"
+msgstr "Project bruger Id"
+
+#: view/Fluxuser/Project/edit.phtml:205
+msgid "Project member - username"
+msgstr "Projekt medlem - brugernavn"
+
+#: view/Fluxuser/Project/edit.phtml:251
+msgid "Add project member"
+msgstr "Tilføj projekt medlem"
+
+#: view/Fluxuser/Project/edit.phtml:275
+msgid "Add member"
+msgstr "Tilføj medlem"
+
+#: view/Fluxuser/Project/edit.phtml:289
+msgid "Please confirm remove"
+msgstr "Bekræft fjernelse"
+
+#: view/Fluxuser/Project/edit.phtml:294
+msgid "Confirm remove user from project?"
+msgstr "Bekræft fjernelse af bruger fra projektet"
+
+#: view/Fluxuser/Project/edit.phtml:303
+msgid "Remove user"
+msgstr "Fjern bruger"
+
+#: view/Fluxuser/Project/index.phtml:12
+msgid "Projects"
+msgstr "Projekter"
+
+#: view/Fluxuser/Project/index.phtml:25
+msgid "Confirm delete project?"
+msgstr "Bekræft sletning af projekter?"
+
+#: view/Fluxuser/Project/index.phtml:31 view/Fluxuser/Project/index.phtml:109
+msgid "Delete project"
+msgstr "Slet projektet"
+
+#: view/Fluxuser/Project/index.phtml:53
+msgid "Create new project"
+msgstr "Opret nyt projekt"
+
+#: view/Fluxuser/Project/index.phtml:70
+msgid "project"
+msgstr "Projekt"
+
+#: view/Fluxuser/Project/index.phtml:71
+msgid "date"
+msgstr "Dato"
+
+#: view/Fluxuser/Project/index.phtml:72
+msgid "Project manager"
+msgstr "Projektleder"
+
+#: view/Fluxuser/Project/index.phtml:73
+msgid "client"
+msgstr "Klient"
+
+#: view/Fluxuser/Project/index.phtml:102
+msgid "Edit project and manage members, contacts and labels"
+msgstr "Rediger projekt og håndter medlemmer, kontakter og labels"
+
+#: view/Fluxuser/email/resetemail.phtml:2
+msgid "FluxTime: Lost Password"
+msgstr "FLUXtime: Mistet password"
+
+#: view/Fluxuser/email/resetemail.phtml:5
+msgid "You want your password to be reset in FluxTime"
+msgstr "Vil du have dit password nulstillet i FLUXtime"
+
+#: view/Fluxuser/email/resetemail.phtml:6
+msgid "Username:"
+msgstr "Brugernavn:"
+
+#: view/Fluxuser/email/resetemail.phtml:7
+msgid "Please follow this link"
+msgstr "Følg venligst dette link"
+
+#: view/Fluxuser/email/resetemail.phtml:9
+msgid "Change password"
+msgstr "Ændre password"
+
+#: view/Fluxuser/email/welcomemail.phtml:2
+msgid "Welcome to FluxTime"
+msgstr "Velkommen til FLUXtime"
+
+#: view/Fluxuser/email/welcomemail.phtml:5
+msgid " have been created as a user in FluxTime"
+msgstr "er blevet oprettet som en bruger i FLUXtime"
+
+#: view/Fluxuser/email/welcomemail.phtml:6
+msgid "Username: "
+msgstr "Brugernavn:"
+
+#: view/Fluxuser/email/welcomemail.phtml:7
+msgid "Password: "
+msgstr "Password:"
+
+#: view/Fluxuser/email/welcomemail.phtml:8
+msgid "Please accept your account by following link"
+msgstr "Bekræft venligst din konto ved at følge dette link"
+
+#: view/Fluxuser/error/404.phtml:9
+msgid "This page is missing"
+msgstr "Denne side mangler"
+
+#: view/Fluxuser/error/404.phtml:13
+msgid "The page that you are looking for may have moved or never existed."
+msgstr "Siden du leder efter, er enten blevet flyttet eller har aldrig eksisteret."
+
+#: view/Fluxuser/error/404.phtml:14 view/Fluxuser/error/index.phtml:14
+msgid "Check your browser's address bar and see if you got the URI correct."
+msgstr "Tjek din browser's adresse felt og om du har skrevet adressen korrekt."
+
+#: view/Fluxuser/error/404.phtml:20 view/Fluxuser/error/index.phtml:20
+msgid "More information"
+msgstr "Mere information"
+
+#: view/Fluxuser/error/404.phtml:29
+msgid "The requested controller was unable to dispatch the request."
+msgstr "Den efterspurgte controller kunne ikke dispath forespørgslen. "
+
+#: view/Fluxuser/error/404.phtml:32
+msgid "The requested controller could not be mapped to an existing controller class."
+msgstr "Den efterspurgte controller kunne ikke blive mapped til en eksisterende controller klasse"
+
+#: view/Fluxuser/error/404.phtml:35
+msgid "The requested controller was not dispatchable."
+msgstr "Den efterspurgte controller er ikke til at dispatche."
+
+#: view/Fluxuser/error/404.phtml:38
+msgid "The requested URL could not be matched by routing."
+msgstr "Den efterspurgte URL kunne ikke blive matched af routing"
+
+#: view/Fluxuser/error/404.phtml:41
+msgid "We cannot determine at this time why a 404 was generated."
+msgstr "Vi kan ikke finde ud af hvorfor du fik en 404."
+
+#: view/Fluxuser/error/404.phtml:53
+msgid "Controller"
+msgstr "Controller"
+
+#: view/Fluxuser/error/404.phtml:60
+#, php-format
+msgid "Resolves to %s"
+msgstr "Besluttet at %s"
+
+#: view/Fluxuser/error/404.phtml:72 view/Fluxuser/error/index.phtml:29
+msgid "Additional information"
+msgstr "Yderligere information"
+
+#: view/Fluxuser/error/404.phtml:75 view/Fluxuser/error/404.phtml:99
+#: view/Fluxuser/error/index.phtml:32 view/Fluxuser/error/index.phtml:56
+msgid "File"
+msgstr "Fil"
+
+#: view/Fluxuser/error/404.phtml:79 view/Fluxuser/error/404.phtml:103
+#: view/Fluxuser/error/index.phtml:36 view/Fluxuser/error/index.phtml:60
+msgid "Message"
+msgstr "Besked"
+
+#: view/Fluxuser/error/404.phtml:83 view/Fluxuser/error/404.phtml:107
+#: view/Fluxuser/error/index.phtml:40 view/Fluxuser/error/index.phtml:64
+msgid "Stack trace"
+msgstr "Stack trace"
+
+#: view/Fluxuser/error/404.phtml:93 view/Fluxuser/error/index.phtml:50
+msgid "Previous exceptions"
+msgstr "Tidligere exceptions"
+
+#: view/Fluxuser/error/404.phtml:122 view/Fluxuser/error/index.phtml:79
+msgid "No Exception available"
+msgstr "Ingen Exception tilgængelig"
+
+#: view/Fluxuser/error/index.phtml:10
+msgid "An error occurred"
+msgstr "En Fejl opstod"
+
+#: view/Fluxuser/error/index.phtml:13
+msgid "There happend an Error in the page."
+msgstr "En Fejl opstod på siden"
+
+#: view/Fluxuser/layout/menu.phtml:48
+msgid "USERS"
+msgstr "BRUGERE"
+
+#: view/Fluxuser/layout/menu.phtml:48
+msgid "CLIENTS"
+msgstr "KLIENTER"
+
+#: view/Fluxuser/layout/menu.phtml:48
+msgid "REPORTS"
+msgstr "RAPPORTER"
+
+#: view/Fluxuser/layout/menu.phtml:48
+msgid "LOG"
+msgstr "   LOG"
+
+#: view/Fluxuser/layout/menu.phtml:48
+msgid "MY LOG"
+msgstr "MIN LOG"
+
+#: view/Fluxuser/layout/menu.phtml:48
+msgid "PROJECTS"
+msgstr "PROJEKTER"
+
+#: view/Fluxuser/layout/menu.phtml:48
+msgid "MY TASKS"
+msgstr "OPGAVER"
+
+#: view/Fluxuser/layout/menu.phtml:48
+msgid "PROFILE"
+msgstr "PROFIL"
+
+#: view/Fluxuser/layout/menu.phtml:48
+msgid "LOGIN"
+msgstr "LOG IND"
+
+#: view/Fluxuser/layout/menu.phtml:48
+msgid "LOGOUT"
+msgstr "LOG UD"
+
+#: view/Fluxuser/Fluxuser/add.phtml:24
+msgid "Employee ID"
+msgstr "Medarbejder ID"
+
+#: view/Fluxuser/Fluxuser/add.phtml:24
+msgid "Username*"
+msgstr "Brugernavn*"
+
+#: view/Fluxuser/Fluxuser/add.phtml:24
+msgid "Password*"
+msgstr "Password*"
+
+#: view/Fluxuser/Fluxuser/add.phtml:24
+msgid "First name*"
+msgstr "Fornavn*"
+
+#: view/Fluxuser/Fluxuser/add.phtml:24
+msgid "Last name*"
+msgstr "Efternavn*"
+
+#: view/Fluxuser/Fluxuser/add.phtml:24
+msgid "Email*"
+msgstr "Email*"
+
+#: view/Fluxuser/Fluxuser/add.phtml:24
+msgid "Phone"
+msgstr "Telefon"
+
+#: view/Fluxuser/Fluxuser/add.phtml:24
+msgid "Street"
+msgstr "Vejnavn"
+
+#: view/Fluxuser/Fluxuser/add.phtml:24
+msgid "House Number"
+msgstr "Vejnummer"
+
+#: view/Fluxuser/Fluxuser/add.phtml:24
+msgid "City"
+msgstr "By"
+
+#: view/Fluxuser/Fluxuser/add.phtml:24
+msgid "Zip Code"
+msgstr "Postnummer"
+
+#: view/Fluxuser/Fluxuser/add.phtml:24
+msgid "Country"
+msgstr "Land"
+
+#: view/Fluxuser/Fluxuser/add.phtml:24
+msgid "Private email"
+msgstr "Privat email"
+
+#: view/Fluxuser/Fluxuser/add.phtml:24
+msgid "Private phone"
+msgstr "Privat telefon"
+
+#: view/Fluxuser/Fluxuser/add.phtml:24
+msgid "Permissions*"
+msgstr "Rettigheder*"
+
+#: view/Fluxuser/Fluxuser/add.phtml:42 view/Fluxuser/Fluxuser/profile.phtml:42
+msgid "Save user"
+msgstr "Gem bruger"
+
+#: view/Fluxuser/Fluxuser/login.phtml:75
+msgid "Login"
+msgstr "Log ind"
+
+#: view/Fluxuser/Fluxuser/profile.phtml:32
+msgid "New password"
+msgstr "Nyt password"
+
+msgid "Save profile"
+msgstr "Gem profil"
+
+msgid "Sign in with Google"
+msgstr "Log ind med Google"
+
+msgid "My current tasks"
+msgstr "Mine nuværende opgaver"
+
+msgid "task name"
+msgstr "opgave navn"
+
+msgid "project name"
+msgstr "projekt navn"
+
+msgid "type"
+msgstr "type"
+
+msgid "status"
+msgstr "status"
+
+msgid "running-/total time"
+msgstr "kørende-/total tid"
+
+msgid "import id"
+msgstr "impoterings id"
+
+msgid "Project name*"
+msgstr "Projekt navn*"
+
+msgid "Active"
+msgstr "Aktiv"
+
+msgid "Import id*"
+msgstr "Importerings id*"
+
+msgid "Save project"
+msgstr "Gem projekt"
+
+msgid "Clients"
+msgstr "Klienter"
+
+msgid "client id"
+msgstr "klient id"
+
+msgid "phone"
+msgstr "telefon"
+
+msgid "email"
+msgstr "email"
+
+msgid "Create new client"
+msgstr "Opret ny client"
+
+msgid "Client id"
+msgstr "Klient id"
+
+msgid "House number"
+msgstr "Hus nummer"
+
+msgid "Zip code"
+msgstr "Post nummer"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Save client"
+msgstr "Gem klient"
+
+msgid "Edit client and manage client contacts"
+msgstr "Rediger klient og administrer klient kontakter"
+
+msgid "Delete client"
+msgstr "Slet klient"
+
+msgid "You are about to delete the client:"
+msgstr "Du er ved at slette bruger:"
+
+msgid "Confirm delete client"
+msgstr "Bekræft sletning af klient"
+
+msgid "Alert"
+msgstr "Alert"
+
+msgid "Sorry, the client cannot be deleted (added to system account or project)"
+msgstr "Desværre, klienten kan ikke blive slettet (tilføjet til system konto eller projekt)"
+
+msgid "OK"
+msgstr "OK"
+
+msgid "Client*"
+msgstr "Klient*"
+
+msgid "Edit client"
+msgstr "Rediger klient"
+
+msgid "description"
+msgstr "beskrivelse"
+
+msgid "Edit label"
+msgstr "Rediger label"
+
+msgid "You are about to delete the project:"
+msgstr "Du er ved at slette dette projekt:"
+
+msgid "Edit project and manage member, contacts and labels"
+msgstr "Rediger projekt og administrer medlemmer, kontakter og labels"
+
+msgid "Show all project tasks"
+msgstr "Vis alle projekt opgaver"
+
+msgid "Project tasks"
+msgstr "Projekt opgaver"
+
+msgid "task"
+msgstr "opgaver"
+
+msgid "creator"
+msgstr "opretter"
+
+msgid "Task*"
+msgstr "Opgaver*"
+
+msgid "Points"
+msgstr "Points"
+
+msgid "Description"
+msgstr "Beskrivelse"
+
+msgid "Task type"
+msgstr "Opgave type"
+
+msgid "Save task"
+msgstr "Gem opgave"
+
+msgid "Return to tasks"
+msgstr "Tilbage til opgaver"
+
+msgid "Create new task"
+msgstr "Opret ny opgave"
+
+msgid "Pivotal Tracker API Token"
+msgstr "Pivotal Tracker API Token"
+
+msgid "Insert Pivotal Tracker API Token"
+msgstr "Indsæt Pivotal Tracker API Token"
+
+msgid "Delete Pivotal Tracker API Token"
+msgstr "Slet Pivotal Tracker API Token"
+
+msgid "Fetch Pivotal Tracker API Token"
+msgstr "Hent Pivotal Tracker API Token"
+
+msgid "Insert Pivotal Tracker Username and Password."
+msgstr "Indsæt Pivotal Tracker Brugernavn and Password."
+
+msgid "Password:"
+msgstr "Password:"
+
+msgid "Fetch"
+msgstr "Hent"
+
+msgid "Initial password*"
+msgstr "Midlertidig password*"
+
+msgid "New password*"
+msgstr "Nyt password*"
+
+msgid "Confirm new password*"
+msgstr "Bekræft nyt password*"
+
+msgid "Confirm"
+msgstr "Bekræft"
+
+msgid "If deleted, the user cannot login."
+msgstr "Hvis slettet, vil brugeren ikke kunne logge ind."
+
+msgid "Please note that the user will not be removed from tasks or projects, but cannot access the system."
+msgstr "Hver opmærksom på at brugeren vil ikke bliver fjernet fra opgaver og projekter, men kan ikke tilgå systemet."
+
+msgid "Confirm delete user?"
+msgstr "Bekræft sletning af bruger?"
+
+msgid "Confirm delete client?"
+msgstr "Bekræft sletning af klient?"
+
+msgid "Client"
+msgstr "Klient"
+
+msgid "Project"
+msgstr "Project"
+
+msgid "This project is imported from an external system. Labels created in FLUXtime are not be visible in external system."
+msgstr "Dette projekt er importeret fra et eksternt system. Labels lavet i FLUXtime er ikke synlige i det eksterne system."
+
+msgid "You can add new labels, but imported labels cannot be edited or removed in FLUXtime. You cannot add or remove project members in FLUXtime."
+msgstr "Du kan tilføje labels, men imorterede labels kan ikke blive redigeret eller flyttet i FLUXtime. Du kan ikke tilføje eller slette projekt medlemmer i FLUXtime."
+
+msgid "Create new contact"
+msgstr "Opret ny kontakt"
+
+msgid "Create new label"
+msgstr "Opret ny label"
+
+msgid "Add client contact"
+msgstr "Tilføj kontakt kontakt"
+
+msgid "View tasks"
+msgstr "Se opgaver"
+
+msgid "You are about to delete the label:"
+msgstr "Du er ved at slette label:"
+
+msgid "Client contactname"
+msgstr "Klient kontaktnavn"
+
+msgid "User*"
+msgstr "Bruger*"
+
+msgid "Remove member"
+msgstr "Fjern medlem"
+
+msgid "Remove contact"
+msgstr "Fjern kontakt"
+
+msgid "Add contact"
+msgstr "Tilføj kontakt"
+
+msgid "Remove project member"
+msgstr "Fjern projekt medlem"
+
+msgid "You are about to remove the project member:"
+msgstr "Du er ved at fjerne et projekt medlem:"
+
+msgid "The user will be removed as owner from alle project tasks."
+msgstr "Brugeren vil blive fjernet som ejer fra alle projekt opgaver."
+
+msgid "Confirm remove project member?"
+msgstr "Bekræft sletning af projekt medlem?"
+
+msgid "Remove project contact"
+msgstr "Fjern projekt kontakt"
+
+msgid "You are about to remove the project contact:"
+msgstr "Kontakten vil blive fjernet fra projektet."
+
+msgid "The contact will be remove from project."
+msgstr "Kontakten vil blive fjernet fra projektet."
+
+msgid "Confirm remove project contact?"
+msgstr "Bekræft sletning af projekt kontakt?"
+
+msgid "Client contact*"
+msgstr "Klient kontakt *"
+
+msgid "Edit task and manage task owners"
+msgstr "Rediger opgave og administrer opgave oprettere"
+
+msgid "Delete task"
+msgstr "Slet opgave"
+
+msgid "Sorry, the task cannot be deleted (timeregistrations added)"
+msgstr "Desværre, opgaven kan ikke blive slettet (tidsregistrering tilføjet)"
+
+msgid "You are about to delete the task:"
+msgstr "Du er ved at slette en opgave:"
+
+msgid "Confirm delete task?"
+msgstr "Bekræft sletning af opgave?"
+
+msgid "This task is not visible in any external systems (created in FLUXtime)"
+msgstr "Denne opgave er ikke synlig for nogen eksterne systemer (oprettet i FLUXtime)"
+
+msgid "This task cannot be edited - imported from an external system"
+msgstr "Denne opgave kan ikke blive redigeret - importeret fra et eksternt system"
+
+msgid "Add task owner"
+msgstr "Tilføj opgave ejer"
+
+msgid "Creator"
+msgstr "Opretter"
+
+msgid "Task owners - Username"
+msgstr "Opgave ejer - Brugernavn"
+
+msgid "Add new task owner"
+msgstr "Tilføj ny opgave ejer"
+
+msgid "Remove task owner"
+msgstr "Fjern opgave ejer"
+
+msgid "You are about to remove the task owner:"
+msgstr "Du er ved at slette denne opgave ejer:"
+
+msgid "Confirm remove task owner?"
+msgstr "Bekræft sletning af opgave ejer?"
+
+msgid "Start the task"
+msgstr "Start opgaven"
+
+msgid "Finish"
+msgstr "Færdiggør"
+
+msgid "My Log"
+msgstr "Min log"
+
+msgid "time"
+msgstr "tid"
+
+msgid "user"
+msgstr "bruger"
+
+msgid "Edit time registration"
+msgstr "Rediger tids registrering"
+
+msgid "Delete time registration"
+msgstr "Slet tids registrering"
+
+msgid "You are about to delete the timereg:"
+msgstr "Du er ved at slette tids registreringen:"
+
+msgid "Confirm delete time registration?"
+msgstr "Bekræft sletning af tidsregistrering?"
+
+msgid "Create new time registration"
+msgstr "Opret ny tids registrering"
+
+msgid "From*"
+msgstr "Fra*"
+
+msgid "To*"
+msgstr "Til*"
+
+msgid "From date"
+msgstr "Fra dato"
+
+msgid "To date"
+msgstr "Til dato"
+
+msgid "Save time registration"
+msgstr "Gem tids registrering"
+
+msgid "Reports - overview"
+msgstr "Rapporter - oversigt"
+
+msgid "CLIENT REPORT"
+msgstr "KLIENT RAPPORT"
+
+msgid "PROJECT REPORT"
+msgstr "PROJEKT RAPPORT"
+
+msgid "USER REPORT"
+msgstr "BRUGER RAPPORT"
+
+msgid "Create a new clientreport"
+msgstr "Opret en ny klient rapport"
+
+msgid "Create a new projectreport"
+msgstr "Opret en ny projekt rapport"
+
+msgid "Create a new userreport"
+msgstr "Opret en ny bruger rapport"
+
+msgid "Clientreport"
+msgstr "Klient rapport"
+
+msgid "Back to reports"
+msgstr "Tilbage til rapporter"
+
+msgid "Please choose clients"
+msgstr "Vælg venligst klienter"
+
+msgid "ALL"
+msgstr "ALLE"
+
+msgid "Return to reports"
+msgstr "Tilbage til rapporter"
+
+msgid "taskid"
+msgstr "opgave id"
+
+msgid "taskname"
+msgstr "opgave navn"
+
+msgid "duration"
+msgstr "varighed"
+
+msgid "Owner"
+msgstr "Ejer"
+
+msgid "Create Report"
+msgstr "Opret rapport"
+
+msgid "Create cvs-report"
+msgstr "Opret csv-rapport"
+
+msgid "Limit choices*"
+msgstr "Vælg periode*"
+
+msgid "Year*"
+msgstr "År*"
+
+msgid "Quater*"
+msgstr "Kvartal*"
+
+msgid "Month*"
+msgstr "Måned*"
+
+msgid "Week*"
+msgstr "Uge*"
+
+msgid "PROJECTLABELS"
+msgstr "PROJEKTLABELS"
+
+msgid "Back"
+msgstr "Tilbage"
+
+msgid "Userreport"
+msgstr "Bruger rapport"
+
+msgid "Stop the task"
+msgstr "Stop opgaven"
